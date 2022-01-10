@@ -4,49 +4,44 @@
     ViewBag.Title = "Facturar compra";
     string url = ViewBag.url;
     List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
-    decimal totalpagar = ViewBag.totalPagar;
+    decimal totalpagar = 0;
+    if (ViewBag.totalPagar != null)
+    {
+         totalpagar = ViewBag.totalPagar;
+    }
 }
 
-<h2>@ViewBag.Title</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Encabezado</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <label class="control-label col-md-2">Identificacion cliente</label>
-            <div class="col-md-10">
-                <input type="text" id="identificacion" class=" form-control" />
-                <button id="btnBuscar" class="btn btn-default">Buscar cliente</button>
-                <input type="hidden" id="cadena" name="cadena" />
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaVenta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaVenta, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaVenta, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaEnvio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaEnvio, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaEnvio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+<h2>@ViewBag.Title</h2>   
+    <div class="card">
+        <div class="header">Encabezado</div>
+        <div class="body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })                
+                <div style="padding:20px;">
+                    <label >Identificacion cliente</label>
+                    <input type="text" id="identificacion" required="required" class="form-control" style="width :100%" />
+                    <button id="btnBuscar" class="button">Buscar</button>
+                    <input type="hidden" id="cadena" name="cadena" />
+                </div>
+                <div style="padding:20px;">
+                    @Html.LabelFor(model => model.FechaVenta )
+                    @Html.EditorFor(model => model.FechaVenta, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FechaVenta, "", new { @class = "text-danger" })
+                </div>
+                <div style="padding:20px">
+                    @Html.LabelFor(model => model.FechaEnvio  )
+                    @Html.EditorFor(model => model.FechaEnvio, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FechaEnvio, "", new { @class = "text-danger" })
+                </div>
+                <div style="padding:20px">
+                    <input id="btnCrear" type="submit" value="Enviar" style="width:100% ;display:none;" class="button" />
+                </div>
+            }
         </div>
     </div>
+
     <h4> detalle</h4>
     <table class="table">
         <tr>
@@ -67,38 +62,36 @@
             }
         </tbody>
     </table>
-    <div>
+    <div style="padding:20px;">
         <label>total a pagar :</label>@totalpagar
     </div>
-}
+    <div style="padding :20px">
+        @Html.ActionLink("Regresar a productos", "Index","Productos", null, htmlAttributes: new { @class = "button" })
+    </div>
+    <div id="dialog" style=" display:none ;padding :30px">
+        <form>
+            <div class="form-group">
+                <label> Nombre</label>
+                <input class="form-control" type="text" id="nombre" style=" width:100%" />
+            </div>
+            <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" class="form-control" id="apellido" style=" width:100%" />
+            </div>
+            <div class="form-group">
+                <label> Direccion </label>
+                <input type="text" id="direccion" class="form-control" style=" width:100%" />
+            </div>
+            <div class="form-group">
+                <label>Telefono</label>
+                <input type="text" class="form-control" id="telefono" style=" width:100%" />
+            </div>
+        </form>
+    </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-<div id="dialog" style=" display:none ;padding :30px">
-    <form>
-        <div class="form-group">
-            <label> Nombre</label>
-            <input class="form-control" type="text" id="nombre" style=" width:100%" />
-        </div>
-        <div class="form-group">
-            <label>Apellido</label>
-            <input type="text" class="form-control" id="apellido" style=" width:100%" />
-        </div>
-        <div class="form-group">
-            <label> Direccion </label>
-            <input type="text" id="direccion" class="form-control" style=" width:100%" />
-        </div>
-        <div class="form-group">
-            <label >Telefono</label>
-            <input type="text" class="form-control" id="telefono" style=" width:100%" />
-        </div>
-    </form>
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript">
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
     $('input[type=datetime]').datepicker({
         dateFormat: "dd/MM/yy",
         changeMonth: true,
@@ -142,6 +135,7 @@
             $("#cadena").val(enconded)
             alertify.success("el registro seha insertado con exito")
             console.log("La solicitud se ha completado correctamente.", enconded);
+            $("#btnCrear").fadeIn()
             $("#dialog").dialog("close");
         }).fail(function (jqXHR, textStatus, errorThrown) {
             $("#dialog").dialog("open")
@@ -151,11 +145,11 @@
     }
     $("#dialog").dialog({
         autoOpen: false,
-        height: 460,
+        height: 500,
         width: 350,
         buttons: {
             "Guardar": function () { guardar() },
-            "Cerrar": function () {  $(this).dialog("close") },
+      
 
 
         },
@@ -177,6 +171,7 @@
             if (data == null) {
                 $("#cadena").val("");
                 $("#dialog").dialog("open");
+                $("#btnCrear").fadeOut()
             }
             else
             {
@@ -185,6 +180,7 @@
                 var enconded = JSON.stringify(data);
                 $("#cadena").val(enconded);
                 alertify.success("se ha encontrado un cliente");
+                $("#btnCrear").fadeIn()
                 console.log("La solicitud se ha completado correctamente.", enconded);
                 console.log("La solicitud se ha completado correctamente.", data);
             }
@@ -194,5 +190,5 @@
             console.log("La solicitud a fallado: ", textStatus);
         });
     })
-</script>
-}
+        </script>
+    }

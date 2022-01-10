@@ -49,7 +49,7 @@ namespace PruebaQuantum.Controllers
             decimal sum = 0;
             foreach (var item in detalles)
             {
-                sum = item.ValorUnitarioIva + sum;
+                sum = item.totalIva + sum;
             }
             return sum;
         }
@@ -61,6 +61,8 @@ namespace PruebaQuantum.Controllers
             try
             {
                 List<FacturaDetalle> detalles;
+                if (cadena == "")
+                    throw new Exception("No hay clientes disponibles");
                 if (Session["detalle"] == null)
                     return RedirectToAction("Index","Productos",null);
                 Cliente cliente = JsonConvert.DeserializeObject<Cliente>(cadena);
@@ -75,8 +77,9 @@ namespace PruebaQuantum.Controllers
             }
             catch(Exception ex)
             {
+              
                 TempData["error"] = ex.Message;
-                return View();
+                return RedirectToAction("Index", "Productos", null);
             }
         }
 

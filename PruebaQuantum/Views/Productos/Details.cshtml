@@ -6,77 +6,42 @@
     List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
     int cantidad = ViewBag.cantidad;
 }
+<div class="card">
+    <div class="header">@Model.Nombre</div>
+    <div class="body">
+        <dl class="dl-horizontal">
 
-<h2>@ViewBag.Title</h2>
+            <dt>
+                @Html.DisplayNameFor(model => model.ValorVentaConIva)
+            </dt>
 
-<div>
+            <dd>
+                @Html.DisplayFor(model => model.ValorVentaConIva)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
+            </dt>
 
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ValorVentaConIva)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ValorVentaConIva)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CantidadUnidadesInventario)
-        </dd>
-    </dl>
-</div>
-<div>
-    <form action="Details" onsubmit="return validar();" method="post">
-        <div class="form-group">
-            <label>Cantidad</label><input type="text" class="form-control" id="cantidad" name="cantidad" value="@cantidad" />
-            <input type="hidden" value="@Model.CantidadUnidadesInventario" id="stock" />
-            <input type="hidden" name="id" value="@Model.Id" />
-        </div>
-        <table class="table">
-            <tr>
-                <th>cantidad</th>
-                <th> producto </th>
-                <th>  valor Unitario </th>
-                <th> total  </th>
-            </tr>
-            <tbody>
-                @foreach (var item in detalles)
-                {
-                    <tr>
-                        <td>@item.cantidad  </td>
-                        <td>@item.producto.Nombre </td>
-                        <td>@item.ValorUnitarioIva   </td>
-                        <td>@item.totalIva  </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <div class="form-group">
-            <p> <label>total a pagar :</label>@totalpagar </p>
-            <input type="submit" class="btn btn-default" value=" Agregar al carrito" />
-        </div>
-    </form>
+            <dd>
+                @Html.DisplayFor(model => model.CantidadUnidadesInventario)
+            </dd>
+        </dl>
+        <form action="Details" onsubmit="return validar();" method="post">
+            <div class="form-group">
+                <label>Cantidad</label><input type="text" class="form-control" id="cantidad" name="cantidad" value="@cantidad" />
+                <input type="hidden" value="@Model.CantidadUnidadesInventario" id="stock" />
+                <input type="hidden" name="id" value="@Model.Id" />
+            </div>
+            <div class="form-group">
+                <input type="submit" class="button" value=" Agregar " style="width:100%" />
+            </div>
+        </form>
+    </div>
 </div>
 
-<p>
-    @if (detalles.Count > 0)
-    {
-        @Html.ActionLink("facturar", "Create", "Facturas", null, new { htmlAttributes = new { @class = "btn btn-default" } })
-    }
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div style="padding-top:20px">
+    @Html.ActionLink("Regresar a la lista", "Index", null, htmlAttributes: new { @class = "button" })
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -93,4 +58,4 @@
 
         }
     </script>
-        }
+}

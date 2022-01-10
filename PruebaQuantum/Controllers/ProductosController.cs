@@ -118,7 +118,7 @@ namespace PruebaQuantum.Controllers
             decimal sum = 0;
             foreach (var item in detalles)
             {
-                sum = item.ValorUnitarioIva + sum;
+                sum = item.totalIva + sum;
             }
             return sum;
         }

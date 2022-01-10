@@ -595,6 +595,7 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;
+	visibility:hidden;
 	right: .3em;
 	top: 50%;
 	width: 20px;

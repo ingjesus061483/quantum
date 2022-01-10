@@ -9,9 +9,11 @@ header {
 }
 
 body {
-    background-color: #f2f2f2;
+    background-color: darkcyan;
+    font-family: Arial;
+    margin: 0;
 }
-
+    
 
 #logo {
     margin: auto;
@@ -27,12 +29,10 @@ body {
 
 nav {
     height: 60px;
-    background-color: #0f4c75;
-    ;
+    background-color: #0f4c75;    
     text-align: center;
 }
-
-    nav ul {
+nav ul {
         list-style: none;
         display: inline-block;
         padding: 18px;
@@ -82,7 +82,7 @@ table {
         color: white;
     }
 
-input[type=text], input[type=password], select, textarea {
+/*input[type=text], input[type=password], select, textarea {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -90,19 +90,8 @@ input[type=text], input[type=password], select, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-}
-a:hover{
-color:darkcyan
-}
-a {
-    text-decoration: none;
-    color: black;
-}
+}*/
 
-body {
-    font-family: Arial;
-    margin: 0;
-}
 
 /* Header/Logo Title */
 .header {
@@ -110,11 +99,13 @@ body {
     text-align: center;
     background: #0f4c75;
     color: white;
-    font-size: 15px;
+    font-weight:bold;
+    font-size: 20px;
 }
 
 .card {
     border: #0f4c75 solid 2px;
+    margin-top:5px;
     border-radius: 5px;
 }
 
@@ -124,6 +115,7 @@ body {
 
 .button {
     width: 100px;
+    text-decoration: none;
     background-color: #0f4c75;
     color: white;
     text-align: center;
@@ -137,6 +129,7 @@ body {
 
 .buttonCol {
     width: 50px;
+    text-decoration:none;
     background-color: #0f4c75;
     text-align: center;
     color: white;
@@ -151,12 +144,12 @@ body {
 .button:hover {
     background-color: #929fb3;
 }
-
+/*
 .container {
     background-color: #f2f2f2;
     padding: 20px;
 }
-
+    */
 .footer {
     padding: 10px;
     background-color: #3282b8;

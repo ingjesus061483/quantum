@@ -8,11 +8,11 @@
 
 <h2>@ViewBag.Title </h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+
 @if (Model != null)
 {
+    @Html.ActionLink("Crear producto", null, null, htmlAttributes: new { @class = "button", @style = "margin-bottom:20px " })
     <table class="table">
         <tr>
             <th>
@@ -46,6 +46,8 @@
         }
 
     </table>
+
+
 }
 
 @if (detalles != null)
@@ -53,7 +55,7 @@
     <div>
         @if (detalles.Count > 0)
         {
-        <a id="btnMostrar" href="#"> Mostrar carrito </a>
+            <a class="button" id="btnMostrar" href="#"> Mostrar carrito </a>
         }
 
     </div>
@@ -78,29 +80,29 @@
             </tbody>
         </table>
         <div>
-            <label>total a pagar :</label>@totalpagar
+            <label>Total a pagar :</label>@totalpagar
         </div>
     </div>
 }
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script type="text/javascript">
-            $("#dialog").dialog({
-                autoOpen: false,
-                height: 400,
-                width: 600,
-                buttons: {
-                    "facturar": function () { window.location.href = "facturas/create" },
-                    "Cerrar": function () { location.reload(); $(this).dialog("close") },
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("#dialog").dialog({
+            autoOpen: false,
+            height: 400,
+            width: 600,
+            buttons: {
+                "facturar": function () { window.location.href = "facturas/create" },
+                "Cerrar": function () { location.reload(); $(this).dialog("close") },
 
 
-                },
-                modal: true
-            });
-            $("#btnMostrar").click(function () {
-                $("#dialog").dialog("open");
-            });
+            },
+            modal: true
+        });
+        $("#btnMostrar").click(function () {
+            $("#dialog").dialog("open");
+        });
 
-        </script>
-    }
+    </script>
+}
