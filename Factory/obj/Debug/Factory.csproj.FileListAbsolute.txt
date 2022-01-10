@@ -1,0 +1,6 @@
+C:\Users\jesus\source\repos\PruebaQuantum\Factory\obj\Debug\Factory.csprojAssemblyReference.cache
+C:\Users\jesus\source\repos\PruebaQuantum\Factory\obj\Debug\Factory.csproj.CoreCompileInputs.cache
+C:\Users\jesus\source\repos\PruebaQuantum\Factory\bin\Debug\Factory.dll
+C:\Users\jesus\source\repos\PruebaQuantum\Factory\bin\Debug\Factory.pdb
+C:\Users\jesus\source\repos\PruebaQuantum\Factory\obj\Debug\Factory.dll
+C:\Users\jesus\source\repos\PruebaQuantum\Factory\obj\Debug\Factory.pdb

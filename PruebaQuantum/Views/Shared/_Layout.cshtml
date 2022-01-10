@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @{
+        string msg = "";
+        string error = "";
+        if (TempData["msg"] != null)
+        {
+            msg = TempData["msg"].ToString();
+        }
+        if(TempData["error"]!=null)
+        {
+            error = TempData["error"].ToString();
+        }
+    }
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/jquery-ui")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Scripts/alertifyjs/css/alertify.css">
+    <link rel="stylesheet" href="~/Scripts/alertifyjs/css/alertify.min.css">
+    <link rel="stylesheet" href="~/Scripts/alertifyjs/css/alertify.rtl.css">
+    <link rel="stylesheet" href="~/Scripts/alertifyjs/css/alertify.rtl.min.css">
+    <script type="text/javascript" src="~/Scripts/alertifyjs/alertify.js"></script>
+    <script type="text/javascript" src="~/Scripts/alertifyjs/alertify.min.js"></script>
+   
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("pruebaQuantum", "Index", "productos", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Inicio", "Index", "productos")</li>
+                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        var error = "@error";
+        var msg = "@msg";
+        if (msg != "") {          
+            alertify.success(msg);
+        }
+        var error = ""
+        if (error != "") {
+            alertify.error(error);
+        }
+
+
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

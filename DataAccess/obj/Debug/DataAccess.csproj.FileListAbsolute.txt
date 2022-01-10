@@ -1,0 +1,6 @@
+C:\Users\jesus\source\repos\PruebaQuantum\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\jesus\source\repos\PruebaQuantum\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\jesus\source\repos\PruebaQuantum\DataAccess\obj\Debug\DataAccess.csprojAssemblyReference.cache
+C:\Users\jesus\source\repos\PruebaQuantum\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\jesus\source\repos\PruebaQuantum\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\jesus\source\repos\PruebaQuantum\DataAccess\obj\Debug\DataAccess.pdb

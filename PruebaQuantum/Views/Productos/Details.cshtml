@@ -1,0 +1,96 @@
+﻿@model Factory.Producto
+
+@{
+    ViewBag.Title = "Agregar a compra";
+    decimal totalpagar = (decimal)ViewBag.sum;
+    List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
+    int cantidad = ViewBag.cantidad;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorVentaConIva)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorVentaConIva)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CantidadUnidadesInventario)
+        </dd>
+    </dl>
+</div>
+<div>
+    <form action="Details" onsubmit="return validar();" method="post">
+        <div class="form-group">
+            <label>Cantidad</label><input type="text" class="form-control" id="cantidad" name="cantidad" value="@cantidad" />
+            <input type="hidden" value="@Model.CantidadUnidadesInventario" id="stock" />
+            <input type="hidden" name="id" value="@Model.Id" />
+        </div>
+        <table class="table">
+            <tr>
+                <th>cantidad</th>
+                <th> producto </th>
+                <th>  valor Unitario </th>
+                <th> total  </th>
+            </tr>
+            <tbody>
+                @foreach (var item in detalles)
+                {
+                    <tr>
+                        <td>@item.cantidad  </td>
+                        <td>@item.producto.Nombre </td>
+                        <td>@item.ValorUnitarioIva   </td>
+                        <td>@item.totalIva  </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <p> <label>total a pagar :</label>@totalpagar </p>
+            <input type="submit" class="btn btn-default" value=" Agregar al carrito" />
+        </div>
+    </form>
+</div>
+
+<p>
+    @if (detalles.Count > 0)
+    {
+        @Html.ActionLink("facturar", "Create", "Facturas", null, new { htmlAttributes = new { @class = "btn btn-default" } })
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function validar() {
+            value = true;
+            var cantidad = Number($("#cantidad").val());
+            var stock = Number($("#stock").val());
+            if (cantidad >= stock) {
+                alertify.error('la cantidad debe ser menor al stock');
+                value = false;
+            }
+            return value;
+
+        }
+    </script>
+        }

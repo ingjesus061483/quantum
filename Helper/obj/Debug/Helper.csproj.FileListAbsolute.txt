@@ -1,0 +1,11 @@
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.csprojAssemblyReference.cache
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.csproj.CoreCompileInputs.cache
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\bin\Debug\Helper.dll
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\bin\Debug\Helper.pdb
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\bin\Debug\DataAccess.dll
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\bin\Debug\Factory.dll
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\bin\Debug\DataAccess.pdb
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\bin\Debug\Factory.pdb
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.csproj.CopyComplete
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.dll
+C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.pdb

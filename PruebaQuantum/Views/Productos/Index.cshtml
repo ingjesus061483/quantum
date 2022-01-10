@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Factory.Producto>
+
+@{
+    ViewBag.Title = "Lista de productos";
+    List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
+    decimal totalpagar = (decimal)ViewBag.sum;
+}
+
+<h2>@ViewBag.Title </h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorVentaConIva)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantidadUnidadesInventario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ValorVentaConIva)
+                </td>
+                <td>
+                    @Html.ActionLink("Agregar al carro", "Details", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (detalles != null)
+{
+    <div>
+        @if (detalles.Count > 0)
+        {
+        <a id="btnMostrar" href="#"> Mostrar carrito </a>
+        }
+
+    </div>
+    <div id="dialog" style=" display:none ;padding:20px; ">
+        <table class="table">
+            <tr>
+                <th>cantidad</th>
+                <th> producto </th>
+                <th>  valor Unitario </th>
+                <th> total  </th>
+            </tr>
+            <tbody>
+                @foreach (var item in detalles)
+                {
+                    <tr>
+                        <td>@item.cantidad  </td>
+                        <td>@item.producto.Nombre </td>
+                        <td>@item.ValorUnitarioIva   </td>
+                        <td>@item.totalIva  </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <label>total a pagar :</label>@totalpagar
+        </div>
+    </div>
+}
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
+            $("#dialog").dialog({
+                autoOpen: false,
+                height: 400,
+                width: 600,
+                buttons: {
+                    "facturar": function () { window.location.href = "facturas/create" },
+                    "Cerrar": function () { location.reload(); $(this).dialog("close") },
+
+
+                },
+                modal: true
+            });
+            $("#btnMostrar").click(function () {
+                $("#dialog").dialog("open");
+            });
+
+        </script>
+    }
