@@ -19,12 +19,15 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div style="padding:20px;">
-                    <label>Identificacion cliente</label>
-                    <input type="text" id="identificacion" required="required" class="form-control" style="width :100%" />
-                    <button id="btnBuscar" class="button">Buscar</button>
-                    <input type="hidden" id="cadena" name="cadena" />
-                </div>                
+            <div style="padding:20px;">
+                <label>Identificacion cliente</label>
+                <input type="text" id="identificacion" required="required" class="form-control" style="width :100%" />
+                <button id="btnBuscar" class="button">Buscar</button>
+                <div id="resp" style="display:none;color:green ;font-size:10px ">
+
+                </div>
+                <input type="hidden" id="cadena" name="cadena" />
+            </div>                
                 <div style="padding:20px;">
                     @Html.LabelFor(model => model.FechaVenta)
                     @Html.EditorFor(model => model.FechaVenta, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
@@ -68,9 +71,7 @@
     <div style="padding :20px">
         @Html.ActionLink("Regresar a productos", "Index","Productos", null, htmlAttributes: new { @class = "button" })
     </div>
-    <div id="resp" style="display:none;">
-        
-    </div>
+   
     <div id="dialog" style=" display:none ;padding :30px">
         <form>
             <div class="form-group">
@@ -152,20 +153,10 @@
                 width: 350,
                 buttons: {
                     "Guardar": function () { guardar() },
+                    "Cerrar": function () {  $(this).dialog("close") },
                 },
                 modal: true
             });
-            $("#resp").dialog({
-                autoOpen: false,
-                height: 500,
-                width: 350,
-                buttons: {
-                    "cerrar": function () { $(this).dialog("close") },                    
-                },
-                modal: true
-            });
-
-
     $("#btnBuscar").click(function () {
         var identificacion = $("#identificacion").val();
         if (identificacion == "") {
@@ -181,19 +172,23 @@
             if (data == null) {
                 $("#cadena").val("");            
                 $("#dialog").dialog("open");
-                $("#btnCrear").fadeOut()                
+                $("#btnCrear").fadeOut();
+                $("#resp").html("");
+                $("#resp").fadeOut();
             }
             else
-            {
-                console.log("estado :", textStatus);
-                console.log("estado :", textStatus);
+            {                
                 var enconded = JSON.stringify(data);
                 var content = "<p><b>Nombre:</b>" + data.nombreCompleto + "</p><p><b>Direccion:</b>" + data.Direccion + "</p><p><b>Telefoo: </b>" + data.Telefono + "</p>";
                 $("#resp").html(content);
-                $("#resp").dialog("open");
+                $("#resp").fadeIn();
                 $("#cadena").val(enconded);
                 alertify.success("se ha encontrado un cliente");
-                $("#btnCrear").fadeIn()
+                $("#btnCrear").fadeIn();
+                setTimeout(function () {
+                    $("#resp").fadeOut();
+                }, 5000);
+                console.log("estado :", textStatus);             
                 console.log("La solicitud se ha completado correctamente.", enconded);
                 console.log("La solicitud se ha completado correctamente.", data);
             }
