@@ -50,8 +50,13 @@
             value = true;
             var cantidad = Number($("#cantidad").val());
             var stock = Number($("#stock").val());
+            var total = cantidad - stock
             if (cantidad >= stock) {
                 alertify.error('la cantidad debe ser menor al stock');
+                value = false;
+            }
+            if (cantidad <= 0) {
+                alertify.error('ha digitao una cantidad invalida');
                 value = false;
             }
             return value;

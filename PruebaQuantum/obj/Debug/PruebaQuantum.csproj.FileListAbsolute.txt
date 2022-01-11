@@ -144,7 +144,6 @@ D:\Documents\GitHub\quantum\PruebaQuantum\bin\roslyn\VBCSCompiler.exe
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\roslyn\VBCSCompiler.exe.config
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Antlr3.Runtime.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Factory.dll
-D:\Documents\GitHub\quantum\PruebaQuantum\bin\Helper.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Microsoft.Web.Infrastructure.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Newtonsoft.Json.dll
@@ -156,9 +155,7 @@ D:\Documents\GitHub\quantum\PruebaQuantum\bin\System.Web.WebPages.Deployment.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\System.Web.WebPages.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\System.Web.WebPages.Razor.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\WebGrease.dll
-D:\Documents\GitHub\quantum\PruebaQuantum\bin\DataAccess.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Factory.pdb
-D:\Documents\GitHub\quantum\PruebaQuantum\bin\Helper.pdb
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\System.Web.Helpers.xml
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\System.Web.Mvc.xml
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\System.Web.Optimization.xml
@@ -169,7 +166,6 @@ D:\Documents\GitHub\quantum\PruebaQuantum\bin\System.Web.WebPages.Razor.xml
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Newtonsoft.Json.xml
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Antlr3.Runtime.pdb
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Documents\GitHub\quantum\PruebaQuantum\bin\DataAccess.pdb
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\es\System.Web.Helpers.resources.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\es\System.Web.Mvc.resources.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\bin\es\System.Web.Optimization.resources.dll

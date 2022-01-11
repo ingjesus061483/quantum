@@ -148,6 +148,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="sql server\scriptquantum.sql" />
     <Content Include="Scripts\alertifyjs\alertify.js" />
     <Content Include="Scripts\alertifyjs\alertify.min.js" />
     <Content Include="Scripts\alertifyjs\css\alertify.css" />
@@ -219,10 +220,6 @@
     <ProjectReference Include="..\Factory\Factory.csproj">
       <Project>{39aee3b0-8ef2-4f1f-9679-a7063271bb79}</Project>
       <Name>Factory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Helper\Helper.csproj">
-      <Project>{ac7d5406-aa0f-4ed7-9ee0-da17f56f42a0}</Project>
-      <Name>Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

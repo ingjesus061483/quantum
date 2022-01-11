@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Factory;
-using Helper;
+
 using Newtonsoft.Json;
 
 namespace PruebaQuantum.Controllers
@@ -14,12 +14,11 @@ namespace PruebaQuantum.Controllers
     
     public class FacturasController : Controller
     {
-        Datoshelper datoshelper;
         string url;
         public FacturasController()
         {
             url= ConfigurationManager.AppSettings["urlapi"];
-            datoshelper = new Datoshelper();
+
         }
         // GET: Facturas
         public ActionResult Index()

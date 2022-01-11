@@ -9,3 +9,14 @@ C:\Users\jesus\source\repos\PruebaQuantum\Helper\bin\Debug\Factory.pdb
 C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.csproj.CopyComplete
 C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.dll
 C:\Users\jesus\source\repos\PruebaQuantum\Helper\obj\Debug\Helper.pdb
+D:\Documents\GitHub\quantum\Helper\bin\Debug\Helper.dll
+D:\Documents\GitHub\quantum\Helper\bin\Debug\Helper.pdb
+D:\Documents\GitHub\quantum\Helper\bin\Debug\DataAccess.dll
+D:\Documents\GitHub\quantum\Helper\bin\Debug\Factory.dll
+D:\Documents\GitHub\quantum\Helper\bin\Debug\DataAccess.pdb
+D:\Documents\GitHub\quantum\Helper\bin\Debug\Factory.pdb
+D:\Documents\GitHub\quantum\Helper\obj\Debug\Helper.csprojAssemblyReference.cache
+D:\Documents\GitHub\quantum\Helper\obj\Debug\Helper.csproj.CoreCompileInputs.cache
+D:\Documents\GitHub\quantum\Helper\obj\Debug\Helper.csproj.CopyComplete
+D:\Documents\GitHub\quantum\Helper\obj\Debug\Helper.dll
+D:\Documents\GitHub\quantum\Helper\obj\Debug\Helper.pdb

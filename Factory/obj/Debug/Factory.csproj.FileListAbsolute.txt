@@ -4,3 +4,9 @@ C:\Users\jesus\source\repos\PruebaQuantum\Factory\bin\Debug\Factory.dll
 C:\Users\jesus\source\repos\PruebaQuantum\Factory\bin\Debug\Factory.pdb
 C:\Users\jesus\source\repos\PruebaQuantum\Factory\obj\Debug\Factory.dll
 C:\Users\jesus\source\repos\PruebaQuantum\Factory\obj\Debug\Factory.pdb
+D:\Documents\GitHub\quantum\Factory\bin\Debug\Factory.dll
+D:\Documents\GitHub\quantum\Factory\bin\Debug\Factory.pdb
+D:\Documents\GitHub\quantum\Factory\obj\Debug\Factory.csprojAssemblyReference.cache
+D:\Documents\GitHub\quantum\Factory\obj\Debug\Factory.csproj.CoreCompileInputs.cache
+D:\Documents\GitHub\quantum\Factory\obj\Debug\Factory.dll
+D:\Documents\GitHub\quantum\Factory\obj\Debug\Factory.pdb

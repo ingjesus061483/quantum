@@ -143,8 +143,12 @@
                     $("#btnCrear").fadeIn()
                     $("#dialog").dialog("close");
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    $("#dialog").dialog("open");
+                    //$("#dialog").dialog("open");
+                    error = jqXHR.responseJSON;
+                    alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
                     console.log("La solicitud a fallado: ", textStatus);
+                    console.log(error);
+                    console.log(jqXHR);                    
                 });
             }
             $("#dialog").dialog({
@@ -193,9 +197,12 @@
                 console.log("La solicitud se ha completado correctamente.", data);
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            $("#cadena").val("");
-            $("#dialog").dialog("open");
+            $("#cadena").val("");            
+            error = jqXHR.responseJSON;        
+            alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
             console.log("La solicitud a fallado: ", textStatus);
+            console.log(error);
+            console.log(jqXHR);
         });
     })
         </script>

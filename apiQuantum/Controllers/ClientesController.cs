@@ -28,9 +28,9 @@ namespace apiQuantum
             {
                 return datoshelper .BuscarClientes(identificacion );
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -41,9 +41,9 @@ namespace apiQuantum
             {
                 return datoshelper.InsertarClientes(cliente.Identificacion,cliente.Nombre ,cliente .Apellido,cliente .Direccion ,cliente.Telefono );
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

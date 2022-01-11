@@ -26,6 +26,10 @@ namespace PruebaQuantum
                     using (var response = await httpClient.GetAsync(url))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
+                        if( apiResponse.Contains("Error"))
+                        {
+                            throw new Exception ( apiResponse) ;
+                        }
                         list = JsonConvert.DeserializeObject<List<T>>(apiResponse);
 
 
@@ -35,7 +39,8 @@ namespace PruebaQuantum
             }
             catch(Exception ex)
             {
-                throw ex;
+                Error  err = JsonConvert.DeserializeObject<Error >(ex.Message);
+                throw new Exception ( err.ExceptionMessage );
             }
         }
        public static  string Encriptar(string cadenaAencriptar)
@@ -55,6 +60,10 @@ namespace PruebaQuantum
                     using (var response = await httpClient.GetAsync(url))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
+                        if (apiResponse.Contains("Error"))
+                        {
+                            throw new Exception(apiResponse);
+                        }
                         if (typeof(T) == typeof(string))
                         {
                             return (T)(object)apiResponse;
@@ -66,7 +75,8 @@ namespace PruebaQuantum
             }
             catch (Exception ex)
             {
-                throw ex;
+                Error err = JsonConvert.DeserializeObject<Error>(ex.Message);
+                throw new Exception (err .ExceptionMessage );
             }
         }
 
@@ -81,6 +91,10 @@ namespace PruebaQuantum
                     using (var response = await httpClient.PostAsync(url, content))
                     {
                         apiResponse = await response.Content.ReadAsStringAsync();
+                        if (apiResponse.Contains("Error"))
+                        {
+                            throw new Exception(apiResponse);
+                        }
                     }
                 }
 
@@ -88,7 +102,8 @@ namespace PruebaQuantum
             }
             catch (Exception ex)
             {
-                throw ex;
+                Error err = JsonConvert.DeserializeObject<Error>(ex.Message);
+                throw new Exception (ex.Message );
             }
         }
 

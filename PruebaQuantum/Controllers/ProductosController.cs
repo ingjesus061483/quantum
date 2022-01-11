@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Helper;
 using Factory;
 using System.Configuration;
 using System.Threading.Tasks;
@@ -13,12 +12,10 @@ namespace PruebaQuantum.Controllers
     public class ProductosController : Controller
     {
         List<FacturaDetalle> detalles;
-        Datoshelper datoshelper;
         string url;
         List<Producto> productos;
         public ProductosController()
         {
-            datoshelper = new Datoshelper();
            url = ConfigurationManager.AppSettings["urlapi"];
         }
         // GET: Proctutos
