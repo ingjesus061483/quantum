@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using Factory;
 using Helper;
@@ -30,13 +27,13 @@ namespace apiQuantum.Controllers
         // POST api/<controller>
         public void Post([FromBody] FacturaEncabezado encabezado)
         {
-            try
+            try 
             {
-                datoshelper.insertarFactura(encabezado);
+                datoshelper.InsertarFactura(encabezado);
             }
-            catch
+            catch(Exception  ex)
             {
-
+                throw ex;
             }
         }
 

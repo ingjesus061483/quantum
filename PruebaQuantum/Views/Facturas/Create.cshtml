@@ -1,5 +1,4 @@
 ﻿@model Factory.FacturaEncabezado
-
 @{
     ViewBag.Title = "Facturar compra";
     string url = ViewBag.url;
@@ -57,10 +56,10 @@
             @foreach (var item in detalles)
             {
                 <tr>
-                    <td>@item.cantidad  </td>
-                    <td>@item.producto.Nombre </td>
+                    <td>@item.Cantidad  </td>
+                    <td>@item.Producto.Nombre </td>
                     <td>@item.ValorUnitarioIva   </td>
-                    <td>@item.totalIva  </td>
+                    <td>@item.TotalConIva  </td>
                 </tr>
             }
         </tbody>
@@ -183,7 +182,7 @@
             else
             {                
                 var enconded = JSON.stringify(data);
-                var content = "<p><b>Nombre:</b>" + data.nombreCompleto + "</p><p><b>Direccion:</b>" + data.Direccion + "</p><p><b>Telefoo: </b>" + data.Telefono + "</p>";
+                var content = "<p><b>Nombre:</b>" + data.NombreCompleto + "</p><p><b>Direccion:</b>" + data.Direccion + "</p><p><b>Telefoo: </b>" + data.Telefono + "</p>";
                 $("#resp").html(content);
                 $("#resp").fadeIn();
                 $("#cadena").val(enconded);

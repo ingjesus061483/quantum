@@ -2,6 +2,7 @@
 <html>
 <head>
     @{
+        string url = "https://localhost:44362/";
         string msg = "";
         string error = "";
         if (TempData["msg"] != null)
@@ -39,13 +40,14 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("pruebaQuantum", "Index", "productos", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("pruebaQuantum", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "productos")</li>
+                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    <li><a href="#" id="IniciarSesion" >Inniciar sesion</a> </li>
                 </ul>
             </div>
         </div>
@@ -57,22 +59,73 @@
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
         </footer>
     </div>
+    <div id="InicioSesion" style="display:none">
+        <label>Usuario </label><input type="text" id="usuario" />
+        <label>Contraseña </label><input type="password" id="contraseña" />
+    </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
-    <script type="text/javascript">
+<script type="text/javascript">
         var error = "@error";
         var msg = "@msg";
-        if (msg != "") {          
+        if (msg != "") {
             alertify.success(msg);
         }
-        var error = ""
         if (error != "") {
             alertify.error(error);
         }
+        $("#IniciarSesion").click(function () {
+            $("#InicioSesion").dialog('open');
+        })
+        $("#InicioSesion").dialog({
+            autoOpen: false,
+            height: 400,
+            width: 600,
+            buttons: {
+                "Iniciar sesion": function () { iniciarSesion(); },
+                "Cerrar": function () { location.reload(); $(this).dialog("close") },
 
 
-    </script>
+            },
+            modal: true
+        });
+        function iniciarSesion()
+        {
+            var usuario = $("#usuario").val();
+            var contraseña = $("#contraseña").val();
+            if (usuario == "") {
+                alertify.error('Campo invalido');
+                return;
+            }
+            if (contraseña == "") {
+                alertify.error('Campo invalido');
+                return;
+            }
+            $.ajax({
+                data: { user: usuario, contraseña:contraseña },
+                    dataType: 'json',
+                    type: "GET",
+                url: "https://localhost:44362/usuarios/login"
+                }).done(function (data, textStatus, jqXHR) {
+                    var enconded = JSON.stringify(data);
+                    console.log("estado :", textStatus);
+                    
+                    alertify.success("el registro seha insertado con exito")
+                    console.log("La solicitud se ha completado correctamente.", enconded);
+                    window.location.href = "home/index" 
+
+                    $("#InicioSesion").dialog("close");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //$("#dialog").dialog("open");
+                    error = jqXHR.
+                    alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
+                    console.log("La solicitud a fallado: ", textStatus);
+                    console.log(error);
+                    console.log(jqXHR);
+                });
+        }
+</script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

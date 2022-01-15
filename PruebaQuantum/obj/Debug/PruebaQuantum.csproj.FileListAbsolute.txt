@@ -178,3 +178,7 @@ D:\Documents\GitHub\quantum\PruebaQuantum\obj\Debug\PruebaQuantum.csproj.CoreCom
 D:\Documents\GitHub\quantum\PruebaQuantum\obj\Debug\PruebaQuantum.csproj.CopyComplete
 D:\Documents\GitHub\quantum\PruebaQuantum\obj\Debug\PruebaQuantum.dll
 D:\Documents\GitHub\quantum\PruebaQuantum\obj\Debug\PruebaQuantum.pdb
+D:\Documents\GitHub\quantum\PruebaQuantum\bin\Helper.dll
+D:\Documents\GitHub\quantum\PruebaQuantum\bin\DataAccess.dll
+D:\Documents\GitHub\quantum\PruebaQuantum\bin\Helper.pdb
+D:\Documents\GitHub\quantum\PruebaQuantum\bin\DataAccess.pdb

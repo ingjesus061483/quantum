@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.ComponentModel.DataAnnotations;
 namespace Factory
 {
     public class FacturaDetalle
     {
-       public int Id { get; set; }
-       public FacturaEncabezado factura { get; set; }
-      public Producto producto { get; set; }
-     public int cantidad { get; set; }
+        public int Id { get; set; }
+        public FacturaEncabezado Factura { get; set; }
+        public Producto Producto { get; set; }
+        public int Cantidad { get; set; }
 
         [Display(Name = "Valor unitario")]
         public decimal ValorUnitario { get; set; }
@@ -21,9 +15,20 @@ namespace Factory
         public decimal ValorUnitarioIva { get; set; }
         
         [Display(Name = "Total con iva")]
-        public decimal totalIva { get { return ValorUnitarioIva * cantidad; } }
+        public decimal TotalConIva
+        { 
+            get 
+            { 
+                return ValorUnitarioIva * Cantidad;
+            } 
+        }
 
         [Display(Name = "Total sin iva")]
-        public decimal total { get { return ValorUnitario * cantidad; } }
+        public decimal Total { 
+            get 
+            { 
+                return ValorUnitario * Cantidad; 
+            } 
+        }
     }
 }

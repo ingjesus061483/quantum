@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Factory;
-
+using Helper;
 using Newtonsoft.Json;
 
 namespace PruebaQuantum.Controllers
@@ -36,22 +34,13 @@ namespace PruebaQuantum.Controllers
         {
             if (Session["detalle"] == null)
                 return RedirectToAction("Index", "Productos", null);
-            ViewBag.url = url;
-            
+            ViewBag.url = url;            
             List<FacturaDetalle>detalles=(List <FacturaDetalle>)Session["detalle"];
-            ViewBag.totalPagar = totalPagar(detalles);
+            ViewBag.totalPagar =Logica .TotalPagar(detalles);
             ViewBag.detalles = detalles;
             return View();
         }
-        decimal totalPagar(List<FacturaDetalle> detalles)
-        {
-            decimal sum = 0;
-            foreach (var item in detalles)
-            {
-                sum = item.totalIva + sum;
-            }
-            return sum;
-        }
+        
 
         // POST: Facturas/Create
         [HttpPost]
@@ -64,19 +53,18 @@ namespace PruebaQuantum.Controllers
                     throw new Exception("No hay clientes disponibles");
                 if (Session["detalle"] == null)
                     return RedirectToAction("Index","Productos",null);
-                Cliente cliente = JsonConvert.DeserializeObject<Cliente>(cadena);
+                Usuario cliente = JsonConvert.DeserializeObject<Usuario>(cadena);
                 detalles = (List<FacturaDetalle>)Session["detalle"];
                 encabezado.Cliente = cliente;
-                encabezado.Detalles = detalles;
-                Session["detalle"] = null;
+                encabezado.Detalles = detalles;              
                 Utilities.url = url + $"/Facturas";            
                 string resp = await Utilities.PostDataAPIAsync<FacturaEncabezado >(encabezado );        
                 TempData["msg"] = "gracias por utilizar nuestros servicios, vuelve pronto!";
+                Session["detalle"] = null;
                 return RedirectToAction("Index", "Productos", null);
             }
             catch(Exception ex)
-            {
-              
+            {              
                 TempData["error"] = ex.Message;
                 return RedirectToAction("Index", "Productos", null);
             }

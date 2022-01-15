@@ -12,7 +12,9 @@
 
 @if (Model != null)
 {
-    @Html.ActionLink("Crear producto", null, null, htmlAttributes: new { @class = "button", @style = "margin-bottom:20px " })
+<div style="padding-bottom:20px">
+    @Html.ActionLink("Crear producto", "Create", null, htmlAttributes: new { @class = "button" })
+</div>
     <table class="table">
         <tr>
             <th>
@@ -71,10 +73,10 @@
                 @foreach (var item in detalles)
                 {
                     <tr>
-                        <td>@item.cantidad  </td>
-                        <td>@item.producto.Nombre </td>
+                        <td>@item.Cantidad  </td>
+                        <td>@item.Producto.Nombre </td>
                         <td>@item.ValorUnitarioIva   </td>
-                        <td>@item.totalIva  </td>
+                        <td>@item.TotalConIva  </td>
                     </tr>
                 }
             </tbody>

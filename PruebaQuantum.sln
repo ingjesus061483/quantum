@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper", "Helper\Helper.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "apiQuantum", "apiQuantum\apiQuantum.csproj", "{4E3CF419-0433-49D4-9DD4-CBF13C0C62E3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aplicacion", "Aplicacion", "{396F163C-1CB3-4777-808E-4866F82E16A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Negocio", "Negocio", "{21C496B2-7BFE-45F0-A2AB-898C91E7A610}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7DFE8508-E923-4568-AA96-BE43B21AAC3F} = {396F163C-1CB3-4777-808E-4866F82E16A5}
+		{39AEE3B0-8EF2-4F1F-9679-A7063271BB79} = {21C496B2-7BFE-45F0-A2AB-898C91E7A610}
+		{CC674CD2-0EEB-40BD-9659-09AC83B1A65C} = {21C496B2-7BFE-45F0-A2AB-898C91E7A610}
+		{AC7D5406-AA0F-4ED7-9EE0-DA17F56F42A0} = {21C496B2-7BFE-45F0-A2AB-898C91E7A610}
+		{4E3CF419-0433-49D4-9DD4-CBF13C0C62E3} = {396F163C-1CB3-4777-808E-4866F82E16A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B184C358-CA0B-4008-B846-F959E2640B12}

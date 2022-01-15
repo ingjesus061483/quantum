@@ -2,13 +2,9 @@
 using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
-
 namespace PruebaQuantum
 {
     public abstract  class Utilities
@@ -26,9 +22,9 @@ namespace PruebaQuantum
                     using (var response = await httpClient.GetAsync(url))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        if( apiResponse.Contains("Error"))
+                        if (apiResponse.Contains("Error"))
                         {
-                            throw new Exception ( apiResponse) ;
+                            throw new Exception(apiResponse);
                         }
                         list = JsonConvert.DeserializeObject<List<T>>(apiResponse);
 
@@ -37,16 +33,16 @@ namespace PruebaQuantum
                 }
                 return list;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Error  err = JsonConvert.DeserializeObject<Error >(ex.Message);
-                throw new Exception ( err.ExceptionMessage );
+                Error err = JsonConvert.DeserializeObject<Error>(ex.Message);
+                throw new Exception(err.ExceptionMessage);
             }
         }
-       public static  string Encriptar(string cadenaAencriptar)
+        public static string Encriptar(string cadenaAencriptar)
         {
             string result = String.Empty;
-            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(cadenaAencriptar);
+            byte[] encryted = Encoding.Unicode.GetBytes(cadenaAencriptar);
             result = Convert.ToBase64String(encryted);
             return result;
         }
@@ -76,11 +72,11 @@ namespace PruebaQuantum
             catch (Exception ex)
             {
                 Error err = JsonConvert.DeserializeObject<Error>(ex.Message);
-                throw new Exception (err .ExceptionMessage );
+                throw new Exception(err.ExceptionMessage);
             }
         }
 
-        public static async Task<string> PostDataAPIAsync<T>( T data)
+        public static async Task<string> PostDataAPIAsync<T>(T data)
         {
             try
             {
@@ -103,11 +99,11 @@ namespace PruebaQuantum
             catch (Exception ex)
             {
                 Error err = JsonConvert.DeserializeObject<Error>(ex.Message);
-                throw new Exception (ex.Message );
+                throw new Exception(err.ExceptionMessage);
             }
         }
 
-        public static async Task<string> PUTDataAPIAsync<T>( T data)
+        public static async Task<string> PUTDataAPIAsync<T>(T data)
         {
             var apiResponse = string.Empty;
             using (var httpClient = new HttpClient())
@@ -143,6 +139,7 @@ namespace PruebaQuantum
                 throw ex;
             }
         }
+
 
     }
 }

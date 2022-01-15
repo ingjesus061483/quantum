@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 namespace DataAccess
 {
     public class Datos
-    {
-        DataRow row;
-        DataTable table;
-        SqlConnection conexion;
-        SqlCommand comand;
-        SqlDataAdapter adapter;
-        DataSet bd;
-        string NombreCadena = "PruebaQuantum"; //SqlDataReader read;
-        string CadenaConexion { get { return ConfigurationManager.ConnectionStrings[NombreCadena].ConnectionString; } }
+    { 
+        DataTable table; SqlConnection conexion; SqlCommand comand; SqlDataAdapter adapter; DataSet bd;
+        string NombreCadena = "PruebaQuantum"; 
+        string CadenaConexion { 
+            get 
+            { 
+                return ConfigurationManager.ConnectionStrings[NombreCadena].ConnectionString; 
+            }
+        }
         public Datos()
         {
             conexion = new SqlConnection { ConnectionString = CadenaConexion };
@@ -74,22 +70,13 @@ namespace DataAccess
             return com;
         }
 
-        SqlCommand InicializarComando(SqlConnection con, CommandType comandtype)
-        {
-            SqlCommand com;
-            com = new SqlCommand
-            {
-                Connection = con,
-                CommandType = comandtype
-            };
-            return com;
-        }
+    
         /// <summary>
         /// llena los ddatos en una dataset
         /// </summary>
         /// <param name="comando"></param>
         /// <returns></returns>
-        DataSet llenardataset(SqlCommand comando)
+        DataSet LlenarDataset(SqlCommand comando)
         {
             try
             {
@@ -112,8 +99,10 @@ namespace DataAccess
             {
                 AbrirConexion();
                 comand = InicializarComando(conexion, CommandType.Text, "select id,nombre from " + tabla);
-                bd = llenardataset(comand);
-                return bd.Tables[0];
+                bd = LlenarDataset(comand);
+               table = bd.Tables[0];
+                bd = null;
+                return table;
             }
             catch(Exception ex)
             {
@@ -124,7 +113,7 @@ namespace DataAccess
                 CerrarConexion();
             }
         }
-         public int InsertarEncabezado(int idCliente ,DateTime  fechaVenta ,DateTime  fechaEnvio )
+        public int InsertarEncabezado(int idCliente ,DateTime  fechaVenta ,DateTime  fechaEnvio )
         {
             try
             {
@@ -147,7 +136,7 @@ namespace DataAccess
                 CerrarConexion();
             }
         }
-        public void Insertardetalles(int idfactura , int idProducto , decimal cantidad, decimal valorUnitario, decimal valorunitarioIva)
+        public void InsertarDetalles(int idfactura , int idProducto , decimal cantidad, decimal valorUnitario, decimal valorunitarioIva)
         {
             try
             {
@@ -170,20 +159,24 @@ namespace DataAccess
             }
         }
 
-        public DataRow InsertarClientes(string identificacion, string nombre, string apellido, string direccion, string telefono)
+        public void InsertarUsuario(int idtipoidentificacion, string identificacion, string nombre, string apellido, string direccion,
+            string telefono,string email ,string nombreUsuario,string contraseña,int idperfil )
         {
             try
             {
                 AbrirConexion();
-                comand = InicializarComando(conexion, CommandType.StoredProcedure, "InsertarClientes");
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "InsertarUsuarios");
+                comand.Parameters.Add("idtipoidentificacion", SqlDbType.Int).Value = idtipoidentificacion;
                 comand.Parameters.Add("identificacion", SqlDbType.VarChar).Value = identificacion;
                 comand.Parameters.Add("nombre", SqlDbType.VarChar).Value = nombre;
                 comand.Parameters.Add("apellido", SqlDbType.VarChar).Value = apellido;
                 comand.Parameters.Add("direccion", SqlDbType.VarChar).Value = direccion;
                 comand.Parameters.Add("telefono", SqlDbType.VarChar).Value = telefono;
-                bd = llenardataset(comand);
-                table = bd.Tables[0];
-                return table.Rows[0];
+                comand.Parameters.Add("email", SqlDbType.VarChar).Value = email;
+                comand.Parameters.Add("nombreUsuario", SqlDbType.VarChar).Value = nombreUsuario;
+                comand.Parameters.Add("contraseña", SqlDbType.VarChar).Value = contraseña;
+                comand.Parameters.Add("idperfil", SqlDbType.Int).Value = idperfil;
+                comand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -201,9 +194,10 @@ namespace DataAccess
                 AbrirConexion();
                 comand = InicializarComando(conexion, CommandType.StoredProcedure, "BuscarClientes");
                 comand.Parameters.Add("identificacion", SqlDbType.VarChar).Value = identificacion;
-                bd = llenardataset(comand);
+                bd = LlenarDataset(comand);
                 DataRow row = null;
                 table = bd.Tables[0];
+                bd = null;
                 if(table .Rows .Count >0)
                 {
                     row = table.Rows[0];
@@ -221,16 +215,195 @@ namespace DataAccess
             }
 
         }
+        public DataTable ListarUsuarios()
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "ListarUsuarios");
+                bd = LlenarDataset(comand);
+               
+                table = bd.Tables[0];
+                bd = null;
+                return table;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
         public DataTable ListarProducto()
         {
             try
             {
                 AbrirConexion();
                 comand = InicializarComando(conexion, CommandType.StoredProcedure, "listarproducto");
-                bd = llenardataset(comand);
-                return bd.Tables[0];
+                bd = LlenarDataset(comand);
+                table= bd.Tables[0];
+                bd = null;
+                return table;
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
+        public DataTable Listarmodulos()
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "Listarmodulos");
+                bd = LlenarDataset(comand);
+                table = bd.Tables[0];
+                bd = null;
+                return table;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
+        public DataTable ListarPermisos()
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "ListarPermisos");
+                bd = LlenarDataset(comand);
+                table = bd.Tables[0];
+                bd = null;
+                return table;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
+        public DataTable ListarPerfiles()
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "listarPerfiles");
+                bd = LlenarDataset(comand);
+                table = bd.Tables[0];
+                bd = null;
+                return table;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+        }
+        public void EditarUsuarios(int id, int idtipoidentificacion, string identificacion, string nombre, string apellido, string direccion,
+            string telefono, string email, string nombreUsuario, string contraseña, int idperfil)
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "EditarUsuarios");
+                comand.Parameters.Add("id", SqlDbType.Int).Value = id;
+                comand.Parameters.Add("idtipoidentificacion", SqlDbType.Int).Value = idtipoidentificacion;
+                comand.Parameters.Add("identificacion", SqlDbType.VarChar).Value = identificacion;
+                comand.Parameters.Add("nombre", SqlDbType.VarChar).Value = nombre;
+                comand.Parameters.Add("apellido", SqlDbType.VarChar).Value = apellido;
+                comand.Parameters.Add("direccion", SqlDbType.VarChar).Value = direccion;
+                comand.Parameters.Add("telefono", SqlDbType.VarChar).Value = telefono;
+                comand.Parameters.Add("email", SqlDbType.VarChar).Value = email;
+               // comand.Parameters.Add("nombreUsuario", SqlDbType.VarChar).Value = nombreUsuario;
+                comand.Parameters.Add("contraseña", SqlDbType.VarChar).Value = contraseña;
+                comand.Parameters.Add("idperfil", SqlDbType.Int).Value = idperfil;
+                comand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CerrarConexion();
+            }            
+        }
+        public DataRow BuscarModulo(int id)
+        { 
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "Buscarmodulo");
+                comand.Parameters.Add("id", SqlDbType.Int).Value = id;
+                bd = LlenarDataset(comand);
+                DataRow row = null;
+                table = bd.Tables[0];
+                bd = null;
+                if (table.Rows.Count > 0)
+                {
+                    row = table.Rows[0];
+                }
+                return row;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DataRow BuscarPerfil(int id)
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "Buscarperfil");
+                comand.Parameters.Add("id", SqlDbType.Int).Value = id;
+                bd = LlenarDataset(comand);
+                DataRow row = null;                
+                table = bd.Tables[0];
+                bd = null;
+                if (table.Rows.Count > 0)
+                {
+                    row = table.Rows[0];
+                }
+                return row;              
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void InsertarProducto( string  Nombre,decimal ValorVentaConIva       , int CantidadUnidadesInventario , decimal PorcentajeIVAAplicado)
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "InsertarProducto");
+                comand.Parameters.Add("Nombre", SqlDbType.VarChar).Value = Nombre;
+                comand.Parameters.Add("ValorVentaConIva", SqlDbType.Decimal).Value = ValorVentaConIva;
+                comand.Parameters.Add("CantidadUnidadesInventario", SqlDbType.Int).Value = CantidadUnidadesInventario;
+                comand.Parameters.Add("PorcentajeIVAAplicado", SqlDbType.Decimal).Value = PorcentajeIVAAplicado;
+                comand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

@@ -1,9 +1,6 @@
 ﻿using Factory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using Helper;
 namespace apiQuantum
@@ -11,12 +8,14 @@ namespace apiQuantum
    
     public class ProductosController : ApiController
     {
-       Datoshelper datoshelper;
+        Datoshelper datoshelper;
         public ProductosController()
         {
             datoshelper = new Datoshelper();
         }
+
         // GET api/<controller>
+        [HttpGet]
         public IEnumerable<Producto> Get()
         {
             try
@@ -29,25 +28,26 @@ namespace apiQuantum
             }
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        [HttpPost]
+        public void Post([FromBody] Producto producto)
         {
+            try
+            {
+                datoshelper.InsertarProducto(producto.Nombre, producto.ValorVentaConIva, producto.CantidadUnidadesInventario, producto.PorcentajeIVAAplicado);
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public void Put()
         {
-        }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Factory;
 using System.Configuration;
 using System.Threading.Tasks;
-
+using Helper;
 namespace PruebaQuantum.Controllers
 {
     public class ProductosController : Controller
@@ -30,7 +28,7 @@ namespace PruebaQuantum.Controllers
                 if (Session["detalle"] != null)
                     detalles = (List<FacturaDetalle>)Session["detalle"];
                 ViewBag.detalles = detalles;
-                ViewBag.sum = totalPagar(detalles);              
+                ViewBag.sum =Logica.TotalPagar(detalles);              
                 return View(productos);
             }
             catch (Exception ex)
@@ -43,91 +41,82 @@ namespace PruebaQuantum.Controllers
         public async Task<ActionResult> Details(int cantidad, int id)
         {
             detalles = new List<FacturaDetalle>();
-            if (Session["detalle"] != null)
-                detalles =( List < FacturaDetalle > )Session["detalle"];
-            Utilities.url = url + $"/Productos";
-            productos = await Utilities.GetListDataAPIAsync<Producto>();
-            Producto producto = productos.Find(x => x.Id == id);
-            FacturaDetalle facturaDetalle = detalles.Find(x => x.producto.Id == id);
-            detalles.Remove(facturaDetalle);
-            FacturaDetalle detalle = new FacturaDetalle
+            try
+            {                
+                if (Session["detalle"] != null)
+                    detalles = (List<FacturaDetalle>)Session["detalle"];
+                Utilities.url = url + $"/Productos";
+                productos = await Utilities.GetListDataAPIAsync<Producto>();
+                Producto producto = Logica.BuscarProducto(productos, id);
+                Logica.AñadirDetalles(detalles, producto, cantidad, id);         
+                Session["detalle"] = detalles;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
             {
-                cantidad = cantidad,
-                producto = producto,
-                ValorUnitario = producto.ValorentaSinIVA,
-                ValorUnitarioIva = producto.ValorVentaConIva
-
-            };
-            detalles.Add(detalle);
-            Session["detalle"] = detalles;
-            return RedirectToAction("Index");
+                TempData["error"] = ex.Message;
+                return View();
+            }
         }
 
         // GET: Proctutos/Details/5
         public async Task< ActionResult >Details(int id)
         {
             Utilities.url = url + $"/Productos";
-            productos = await Utilities.GetListDataAPIAsync<Producto>();
-
-            Producto producto = productos.Find(x => x.Id == id);
-            List<FacturaDetalle> detalles = new List<FacturaDetalle>();
-            int cantidad=1;
-            if (Session["Detalle"] != null)
-            {
-                detalles = (List<FacturaDetalle>)Session["Detalle"];
-                FacturaDetalle detalle = detalles.Find(x => x.producto.Id == id);
-                if (detalle != null)
-                {
-                    cantidad = detalle.cantidad;
-                }
-                
-            }
-            
-            ViewBag.sum = totalPagar (detalles );
+            productos = await Utilities.GetListDataAPIAsync<Producto>(); 
+            List<FacturaDetalle> detalles =(List<FacturaDetalle >)Session ["detalle"];
+            int cantidad = Logica.DevolverCantidad(detalles, id);
+            ViewBag.sum =Logica . TotalPagar (detalles );
             ViewBag.detalles = detalles;
             ViewBag.cantidad = cantidad;
+            Producto producto = Logica.BuscarProducto(productos, id);
             return View( producto );
         }
 
         // GET: Proctutos/Create
         public ActionResult Create()
         {
-            return View();
+            Producto producto = new Producto { PorcentajeIVAAplicado = 0.16M };               
+            return View(producto);
         }
 
         // POST: Proctutos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public async Task< ActionResult >Create(Producto producto)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                Utilities.url = url + "/Productos";
+                await Utilities.PostDataAPIAsync(producto);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                TempData["error"] = ex.Message;
+                return RedirectToAction("Index");
             }
         }
-        decimal totalPagar(List <FacturaDetalle> detalles)
-        {
-            decimal sum = 0;
-            foreach (var item in detalles)
-            {
-                sum = item.totalIva + sum;
-            }
-            return sum;
-        }
+        
         // GET: Proctutos/Edit/5
-        public ActionResult Edit(int id)
+        public async Task < ActionResult> Edit(int id=0)
         {
-            return View();
+            try
+            {
+                Utilities.url = url + $"/Productos";
+                productos = await Utilities.GetListDataAPIAsync<Producto>();
+                Producto producto = Logica.BuscarProducto(productos, id);
+                return View(producto );
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Proctutos/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Producto producto )
         {
             try
             {

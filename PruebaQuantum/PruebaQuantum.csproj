@@ -123,6 +123,7 @@
     <Compile Include="Controllers\FacturasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -148,7 +149,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="sql server\scriptquantum.sql" />
+    <Content Include="sql server\PruebaQoantum.sql" />
     <Content Include="Scripts\alertifyjs\alertify.js" />
     <Content Include="Scripts\alertifyjs\alertify.min.js" />
     <Content Include="Scripts\alertifyjs\css\alertify.css" />
@@ -181,6 +182,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="sql server\punto3.sql" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -198,10 +200,17 @@
     <Content Include="Views\Productos\Index.cshtml" />
     <Content Include="Views\Productos\Details.cshtml" />
     <Content Include="Views\Facturas\Create.cshtml" />
+    <Content Include="Views\Productos\Create.cshtml" />
+    <Content Include="Views\Productos\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Perfiles y Permisos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -220,6 +229,10 @@
     <ProjectReference Include="..\Factory\Factory.csproj">
       <Project>{39aee3b0-8ef2-4f1f-9679-a7063271bb79}</Project>
       <Name>Factory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helper\Helper.csproj">
+      <Project>{ac7d5406-aa0f-4ed7-9ee0-da17f56f42a0}</Project>
+      <Name>Helper</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
