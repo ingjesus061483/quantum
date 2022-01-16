@@ -32,9 +32,12 @@ namespace PruebaQuantum.Controllers
         // GET: Facturas/Create
         public ActionResult Create()
         {
+            if (Session["usuario"] == null)
+                return RedirectToAction("Index", "Productos", null);
             if (Session["detalle"] == null)
                 return RedirectToAction("Index", "Productos", null);
-            ViewBag.url = url;            
+            ViewBag.url = url;
+            ViewBag.usuario = (Usuario)Session["usuario"];
             List<FacturaDetalle>detalles=(List <FacturaDetalle>)Session["detalle"];
             ViewBag.totalPagar =Logica .TotalPagar(detalles);
             ViewBag.detalles = detalles;
@@ -49,19 +52,20 @@ namespace PruebaQuantum.Controllers
             try
             {
                 List<FacturaDetalle> detalles;
-                if (cadena == "")
+                if (Session["usuario"] == null)
                     throw new Exception("No hay clientes disponibles");
                 if (Session["detalle"] == null)
                     return RedirectToAction("Index","Productos",null);
-                Usuario cliente = JsonConvert.DeserializeObject<Usuario>(cadena);
+                Usuario usuario = (Usuario)Session["usuario"];
                 detalles = (List<FacturaDetalle>)Session["detalle"];
-                encabezado.Cliente = cliente;
+                encabezado.Cliente = usuario ;
                 encabezado.Detalles = detalles;              
                 Utilities.url = url + $"/Facturas";            
                 string resp = await Utilities.PostDataAPIAsync<FacturaEncabezado >(encabezado );        
                 TempData["msg"] = "gracias por utilizar nuestros servicios, vuelve pronto!";
                 Session["detalle"] = null;
-                return RedirectToAction("Index", "Productos", null);
+                Session["usuario"] = null;
+                return RedirectToAction("Index", "home", null);
             }
             catch(Exception ex)
             {              

@@ -2,9 +2,15 @@
 <html>
 <head>
     @{
+        Factory.Usuario usuario = (Factory.Usuario)Session["usuario"];
+        bool esSesionIniciada = false;
         string url = "https://localhost:44362/";
         string msg = "";
         string error = "";
+        if (usuario!=null)
+        {
+            esSesionIniciada = true;
+        }
         if (TempData["msg"] != null)
         {
             msg = TempData["msg"].ToString();
@@ -47,26 +53,57 @@
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    @if (!esSesionIniciada)
+                    {
                     <li><a href="#" id="IniciarSesion" >Inniciar sesion</a> </li>
+                    }
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
+        <input type="hidden" id="esSesionIniciada" value="@esSesionIniciada.ToString().ToLower()" />
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
-        </footer>
+            @if( esSesionIniciada)
+            {
+            <div style="width :500px">
+                <div class="card">
+                    <div class=" header">Informacion de sesion</div>
+                    <div class="body">
+                        <form action="Usuarios/logout" method="post" onsubmit="return validar();">
+                            <p><b> @Html.DisplayNameFor(model => usuario.Identificacion):</b>  @Html.DisplayFor(modelItem => usuario.Identificacion)               </p>
+                            <p><b> @Html.DisplayNameFor(model => usuario.NombreCompleto):</b>  @Html.DisplayFor(modelItem => usuario.NombreCompleto)               </p>
+                            <p><b> @Html.DisplayNameFor(model => usuario.NombreUsuario):</b>  @Html.DisplayFor(modelItem => usuario.NombreUsuario)               </p>
+                            <p><b> @Html.DisplayNameFor(model => usuario.Perfil.Nombre):</b>  @Html.DisplayFor(modelItem => usuario.Perfil.Nombre)               </p>
+                            <div >
+                                <input type="submit" class="button" value=" Cerrar sesion" style="width :100%" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                </div>
+                }
+                <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+</footer>
     </div>
     <div id="InicioSesion" style="display:none">
-        <label>Usuario </label><input type="text" id="usuario" />
-        <label>Contraseña </label><input type="password" id="contraseña" />
+        <div class="form-group ">
+            <label class="control-label" >Usuario </label>
+            <input class="form-control " type="text" id="usuario" />
+        </div>
+        <div class="form-group ">
+            <label class=" control-label " >Contraseña </label>
+            <input class=" form-control " type="password" id="contraseña" />
+        </div>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/bootstrap")
-<script type="text/javascript">
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script type="text/javascript">
+            
         var error = "@error";
         var msg = "@msg";
         if (msg != "") {
@@ -81,15 +118,23 @@
         $("#InicioSesion").dialog({
             autoOpen: false,
             height: 400,
-            width: 600,
+            width: 500,
             buttons: {
                 "Iniciar sesion": function () { iniciarSesion(); },
-                "Cerrar": function () { location.reload(); $(this).dialog("close") },
+                "Cerrar": function () {  $(this).dialog("close") },
 
 
             },
             modal: true
         });
+    function validar() {
+        var valida = false
+        resp = confirm("Desea cerrar la sesion?")
+        if (resp) {
+            valida = true;
+        }
+        return valida;
+    }
         function iniciarSesion()
         {
             var usuario = $("#usuario").val();
@@ -110,10 +155,10 @@
                 }).done(function (data, textStatus, jqXHR) {
                     var enconded = JSON.stringify(data);
                     console.log("estado :", textStatus);
-                    
-                    alertify.success("el registro seha insertado con exito")
+
+                    alertify.success("Has iniciado sesion como "+data.NombreUsuario )
                     console.log("La solicitud se ha completado correctamente.", enconded);
-                    window.location.href = "home/index" 
+                    location.reload();
 
                     $("#InicioSesion").dialog("close");
                 }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -125,7 +170,7 @@
                     console.log(jqXHR);
                 });
         }
-</script>
-    @RenderSection("scripts", required: false)
+        </script>
+        @RenderSection("scripts", required: false)
 </body>
 </html>

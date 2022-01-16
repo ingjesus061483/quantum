@@ -11,7 +11,7 @@ namespace Factory
     {
         public int Id { get; set; }
 
-        [Display(Name = "Usuario")]
+        [Display(Name = "Tipo Identificacion")]
         public string Nombre { get; set; }
     }
 }

@@ -23,14 +23,21 @@ namespace PruebaQuantum.Controllers
                 Utilities.url = $"{url}/Usuarios?user={user}&contraseña={contraseña}";
                 Usuario usuario = await Utilities.GetDataAPIAsync<Usuario>();
                 Session["usuario"] = usuario;
-                   return Json(usuario , JsonRequestBehavior.AllowGet);
+                return Json(usuario , JsonRequestBehavior.AllowGet);
+
             }
             catch(Exception ex)
             {
                 TempData["error"] = ex.Message;
                 return Json(null, JsonRequestBehavior.AllowGet);
-                    }
+            }
 
+        }
+       [HttpPost ]
+        public ActionResult logout()
+        {
+            Session["usuario"] = null;
+            return RedirectToAction("index","home",null );
         }
 
         // GET: Usuarios

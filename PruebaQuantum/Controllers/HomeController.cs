@@ -1,24 +1,18 @@
 ﻿using Factory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-
 namespace PruebaQuantum.Controllers
 {
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {
+        {        
             Usuario usuario = (Usuario)Session["usuario"];
-            return View();
+            return View(usuario );
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
@@ -27,6 +21,12 @@ namespace PruebaQuantum.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+        [HttpPost]
+        public ActionResult Cerrarsesion()
+        {
+            Session["usuario"] = null;
+            return RedirectToAction("index");
         }
     }
 }

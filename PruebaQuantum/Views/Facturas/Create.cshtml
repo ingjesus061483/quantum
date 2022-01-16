@@ -1,107 +1,107 @@
-﻿@model Factory.FacturaEncabezado
+﻿@using Factory
+@model FacturaEncabezado
 @{
+    Usuario usuario = (Usuario)ViewBag.usuario;
     ViewBag.Title = "Facturar compra";
     string url = ViewBag.url;
     List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
     decimal totalpagar = 0;
     if (ViewBag.totalPagar != null)
     {
-         totalpagar = ViewBag.totalPagar;
+        totalpagar = ViewBag.totalPagar;
     }
 }
 
-<h2>@ViewBag.Title</h2>   
-    <div class="card">
-        <div class="header">Encabezado</div>
-        <div class="body">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<h2>@ViewBag.Title</h2>
+<div class="card">
+    <div class="header">Encabezado</div>
+    <div class="body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div style="padding:20px;">
                 <label>Identificacion cliente</label>
-                <input type="text" id="identificacion" required="required" class="form-control" style="width :100%" />
-                <button id="btnBuscar" class="button">Buscar</button>
+                <input type="text" id="identificacion" required="required" value="@usuario.Identificacion" class="form-control" style="width :100%" />       
                 <div id="resp" style="display:none;color:green ;font-size:10px ">
 
-                </div>
-                <input type="hidden" id="cadena" name="cadena" />
-            </div>                
-                <div style="padding:20px;">
-                    @Html.LabelFor(model => model.FechaVenta)
-                    @Html.EditorFor(model => model.FechaVenta, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.FechaVenta, "", new { @class = "text-danger" })
-                </div>
-                <div style="padding:20px">
-                    @Html.LabelFor(model => model.FechaEnvio)
-                    @Html.EditorFor(model => model.FechaEnvio, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.FechaEnvio, "", new { @class = "text-danger" })
-                </div>
-                <div style="padding:20px">
-                    <input id="btnCrear" type="submit" value="Enviar" style="width:100% ;display:none;" class="button" />
-                </div>
-            }
+                </div>                
+            </div>
+            <div style="padding:20px;">
+                @Html.LabelFor(model => model.FechaVenta)
+                @Html.EditorFor(model => model.FechaVenta, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FechaVenta, "", new { @class = "text-danger" })
+            </div>
+            <div style="padding:20px">
+                @Html.LabelFor(model => model.FechaEnvio)
+                @Html.EditorFor(model => model.FechaEnvio, new { htmlAttributes = new { @type = "datetime", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FechaEnvio, "", new { @class = "text-danger" })
+            </div>
+            <div style="padding:20px">
+                <input id="btnCrear" type="submit" value="Enviar" style="width:100% ;" class="button" />
+            </div>
+        }
+    </div>
+</div>
+
+<h4> detalle</h4>
+<table class="table">
+    <tr>
+        <th>cantidad</th>
+        <th> producto </th>
+        <th>  valor Unitario </th>
+        <th> total  </th>
+    </tr>
+    <tbody>
+        @foreach (var item in detalles)
+        {
+            <tr>
+                <td>@item.Cantidad  </td>
+                <td>@item.Producto.Nombre </td>
+                <td>@item.ValorUnitarioIva   </td>
+                <td>@item.TotalConIva  </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div style="padding:20px;">
+    <label>total a pagar :</label>@totalpagar
+</div>
+<div style="padding :20px">
+    @Html.ActionLink("Regresar a productos", "Index", "Productos", null, htmlAttributes: new { @class = "button" })
+</div>
+
+<div id="dialog" style=" display:none ;padding :30px">
+    <form>
+        <div class="form-group">
+            <label> Nombre</label>
+            <input class="form-control" type="text" id="nombre" style=" width:100%" />
         </div>
-    </div>
+        <div class="form-group">
+            <label>Apellido</label>
+            <input type="text" class="form-control" id="apellido" style=" width:100%" />
+        </div>
+        <div class="form-group">
+            <label> Direccion </label>
+            <input type="text" id="direccion" class="form-control" style=" width:100%" />
+        </div>
+        <div class="form-group">
+            <label>Telefono</label>
+            <input type="text" class="form-control" id="telefono" style=" width:100%" />
+        </div>
+    </form>
+</div>
 
-    <h4> detalle</h4>
-    <table class="table">
-        <tr>
-            <th>cantidad</th>
-            <th> producto </th>
-            <th>  valor Unitario </th>
-            <th> total  </th>
-        </tr>
-        <tbody>
-            @foreach (var item in detalles)
-            {
-                <tr>
-                    <td>@item.Cantidad  </td>
-                    <td>@item.Producto.Nombre </td>
-                    <td>@item.ValorUnitarioIva   </td>
-                    <td>@item.TotalConIva  </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <div style="padding:20px;">
-        <label>total a pagar :</label>@totalpagar
-    </div>
-    <div style="padding :20px">
-        @Html.ActionLink("Regresar a productos", "Index","Productos", null, htmlAttributes: new { @class = "button" })
-    </div>
-   
-    <div id="dialog" style=" display:none ;padding :30px">
-        <form>
-            <div class="form-group">
-                <label> Nombre</label>
-                <input class="form-control" type="text" id="nombre" style=" width:100%" />
-            </div>
-            <div class="form-group">
-                <label>Apellido</label>
-                <input type="text" class="form-control" id="apellido" style=" width:100%" />
-            </div>
-            <div class="form-group">
-                <label> Direccion </label>
-                <input type="text" id="direccion" class="form-control" style=" width:100%" />
-            </div>
-            <div class="form-group">
-                <label>Telefono</label>
-                <input type="text" class="form-control" id="telefono" style=" width:100%" />
-            </div>
-        </form>
-    </div>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script type="text/javascript">
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
             $('input[type=datetime]').datepicker({
                 dateFormat: "dd/MM/yy",
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "-60:+0"
             });
-            function guardar()
+            @*function guardar()
             {
                 identificacion = $("#identificacion").val();
                 nombre = $("#nombre").val();
@@ -147,7 +147,7 @@
                     alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
                     console.log("La solicitud a fallado: ", textStatus);
                     console.log(error);
-                    console.log(jqXHR);                    
+                    console.log(jqXHR);
                 });
             }
             $("#dialog").dialog({
@@ -173,14 +173,14 @@
             url:  "@url/Clientes"
         }).done(function (data, textStatus, jqXHR) {
             if (data == null) {
-                $("#cadena").val("");            
+                $("#cadena").val("");
                 $("#dialog").dialog("open");
                 $("#btnCrear").fadeOut();
                 $("#resp").html("");
                 $("#resp").fadeOut();
             }
             else
-            {                
+            {
                 var enconded = JSON.stringify(data);
                 var content = "<p><b>Nombre:</b>" + data.NombreCompleto + "</p><p><b>Direccion:</b>" + data.Direccion + "</p><p><b>Telefoo: </b>" + data.Telefono + "</p>";
                 $("#resp").html(content);
@@ -191,18 +191,18 @@
                 setTimeout(function () {
                     $("#resp").fadeOut();
                 }, 5000);
-                console.log("estado :", textStatus);             
+                console.log("estado :", textStatus);
                 console.log("La solicitud se ha completado correctamente.", enconded);
                 console.log("La solicitud se ha completado correctamente.", data);
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            $("#cadena").val("");            
-            error = jqXHR.responseJSON;        
+            $("#cadena").val("");
+            error = jqXHR.responseJSON;
             alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
             console.log("La solicitud a fallado: ", textStatus);
             console.log(error);
             console.log(jqXHR);
         });
-    })
-        </script>
-    }
+    })*@
+    </script>
+}

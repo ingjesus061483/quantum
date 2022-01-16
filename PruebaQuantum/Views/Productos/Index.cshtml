@@ -1,60 +1,42 @@
 ﻿@model IEnumerable<Factory.Producto>
 
+
 @{
     ViewBag.Title = "Lista de productos";
     List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
     decimal totalpagar = (decimal)ViewBag.sum;
 }
-
-<h2>@ViewBag.Title </h2>
-
-
-
 @if (Model != null)
 {
-<div style="padding-bottom:20px">
-    @Html.ActionLink("Crear producto", "Create", null, htmlAttributes: new { @class = "button" })
-</div>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ValorVentaConIva)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CantidadUnidadesInventario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ValorVentaConIva)
-                </td>
-                <td>
-                    @Html.ActionLink("Agregar al carro", "Details", new { id = item.Id }, htmlAttributes: new { @class = "buttonCol" })
-                </td>
-            </tr>
-        }
-
-    </table>
+    <div style="padding-bottom:20px;padding-top:20px" >
+        @Html.ActionLink("Crear producto", "Create", null, htmlAttributes: new { @class = "button" })
+    </div>
+    <div class="card">
+        <div class=" header">@ViewBag.Title</div>
+        <div class="body" style=" height :600px; overflow:scroll ">
+            @foreach (var item in Model)
+            {
+                <div class="card" style="width :300px;margin-left:10px; float:left;">
+                    <div class=" header">Informacion de productos </div>
+                    <div class=" body">
+                        <p><b> @Html.DisplayNameFor(model => model.Nombre):</b>@Html.DisplayFor(modelItem => item.Nombre) </p>
+                        <p><b> @Html.DisplayNameFor(model => model.CantidadUnidadesInventario):</b>@Html.DisplayFor(modelItem => item.CantidadUnidadesInventario) </p>
+                        <p><b> @Html.DisplayNameFor(model => model.ValorVentaConIva):</b>@Html.DisplayFor(modelItem => item.ValorVentaConIva) </p>
+                        <div style="padding:20px">
+                            @Html.ActionLink("Agregar al carro", "Details", new { id = item.Id }, htmlAttributes: new { @class = "button", @style = "width:100%" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 
 
 }
 
 @if (detalles != null)
 {
-    <div>
+    <div style="padding-top :20px">
         @if (detalles.Count > 0)
         {
             <a class="button" id="btnMostrar" href="#"> Mostrar carrito </a>
@@ -90,12 +72,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
+
         $("#dialog").dialog({
             autoOpen: false,
             height: 400,
             width: 600,
             buttons: {
-                "facturar": function () { window.location.href = "facturas/create" },
+                "facturar": function () { validarSesion() },
                 "Cerrar": function () { location.reload(); $(this).dialog("close") },
 
 
@@ -105,6 +88,16 @@
         $("#btnMostrar").click(function () {
             $("#dialog").dialog("open");
         });
+        function validarSesion() {
+            var esSesionIniciada = $("#esSesionIniciada").val();
+            if (esSesionIniciada == 'false') {
+                alertify.error('inicie seision para comprar');
+                $("#dialog").dialog("close");
+                $("#InicioSesion").dialog('open')
+                return;
+            }
+            window.location.href = "facturas/create";
+        }
 
     </script>
 }
