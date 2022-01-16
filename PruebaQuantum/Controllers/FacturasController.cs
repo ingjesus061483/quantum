@@ -12,6 +12,8 @@ namespace PruebaQuantum.Controllers
     
     public class FacturasController : Controller
     {
+        List<FacturaDetalle> detalles; 
+        List<Producto> productos;
         string url;
         public FacturasController()
         {
@@ -19,18 +21,63 @@ namespace PruebaQuantum.Controllers
 
         }
         // GET: Facturas
-        public ActionResult Index()
+        public async Task < ActionResult> Index()
         {
-            return View();
+            ViewBag.sum = 0;
+            try
+            {
+                Utilities.url = url + $"/Productos";
+                productos = await Utilities.GetListDataAPIAsync<Producto>();
+                detalles = (List<FacturaDetalle>)Session["detalle"];
+                ViewBag.detalles = detalles;
+                ViewBag.sum = Logica.TotalPagar(detalles);
+                return View(productos);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return View();
+            }
         }
 
         // GET: Facturas/Details/5
-        public ActionResult Details(int id)
+        [HttpPost]
+        public async Task<ActionResult> Details(int cantidad, int id)
         {
-            return View();
+            detalles = new List<FacturaDetalle>();
+            try
+            {
+                if (Session["detalle"] != null)
+                    detalles = (List<FacturaDetalle>)Session["detalle"];
+                Utilities.url = url + $"/Productos";
+                productos = await Utilities.GetListDataAPIAsync<Producto>();
+                Producto producto = Logica.BuscarProducto(productos, id);
+                Logica.AñadirDetalles(detalles, producto, cantidad, id);
+                Session["detalle"] = detalles;
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return View();
+            }
+        }
+
+        // GET: Proctutos/Details/5
+        public async Task<ActionResult> Details(int id)
+        {
+            Utilities.url = url + $"/Productos";
+            productos = await Utilities.GetListDataAPIAsync<Producto>();
+            List<FacturaDetalle> detalles = (List<FacturaDetalle>)Session["detalle"];
+            int cantidad = Logica.DevolverCantidad(detalles, id);
+            ViewBag.sum = Logica.TotalPagar(detalles);
+            ViewBag.detalles = detalles;
+            ViewBag.cantidad = cantidad;
+            Producto producto = Logica.BuscarProducto(productos, id);
+            return View(producto);
         }
         // GET: Facturas/Create
-        public ActionResult Create()
+        public ActionResult Create()        
         {
             if (Session["usuario"] == null)
                 return RedirectToAction("Index", "Productos", null);

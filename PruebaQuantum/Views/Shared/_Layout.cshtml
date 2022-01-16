@@ -51,11 +51,18 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                    <li>@Html.ActionLink("Inventario", "Index", "Productos")</li>
+                    <li>@Html.ActionLink("Facturacion", "Index", "Facturas")</li>
+
+
+
+
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                     @if (!esSesionIniciada)
                     {
-                    <li><a href="#" id="IniciarSesion" >Inniciar sesion</a> </li>
+                        <li><a href="#" id="IniciarSesion">Inniciar sesion</a> </li>
                     }
                 </ul>
             </div>
@@ -72,7 +79,7 @@
                 <div class="card">
                     <div class=" header">Informacion de sesion</div>
                     <div class="body">
-                        <form action="Usuarios/logout" method="post" onsubmit="return validar();">
+                        <form action="~/Usuarios/logout" method="post" onsubmit="return validar();">
                             <p><b> @Html.DisplayNameFor(model => usuario.Identificacion):</b>  @Html.DisplayFor(modelItem => usuario.Identificacion)               </p>
                             <p><b> @Html.DisplayNameFor(model => usuario.NombreCompleto):</b>  @Html.DisplayFor(modelItem => usuario.NombreCompleto)               </p>
                             <p><b> @Html.DisplayNameFor(model => usuario.NombreUsuario):</b>  @Html.DisplayFor(modelItem => usuario.NombreUsuario)               </p>

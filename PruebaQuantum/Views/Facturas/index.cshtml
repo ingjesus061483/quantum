@@ -1,0 +1,95 @@
+﻿@using Factory
+@model IEnumerable<Producto>
+
+
+@{
+    ViewBag.Title = "Lista de productos";
+    List<FacturaDetalle> detalles = ViewBag.detalles;
+    decimal totalpagar = (decimal)ViewBag.sum;
+}
+@if (Model != null)
+{
+   
+    <div class="card">
+        <div class="header">@ViewBag.Title</div>
+        <div class="body" style=" height :600px; overflow:scroll ">
+            @foreach (var item in Model)
+            {
+                <div class="card" style="width :300px;margin-left:10px; float:left;">
+                    <div class=" header">Informacion de productos </div>
+                    <div class=" body">
+                        <p><b> @Html.DisplayNameFor(model => model.Nombre):</b>@Html.DisplayFor(modelItem => item.Nombre) </p>
+                        <p><b> @Html.DisplayNameFor(model => model.CantidadUnidadesInventario):</b>@Html.DisplayFor(modelItem => item.CantidadUnidadesInventario) </p>
+                        <p><b> @Html.DisplayNameFor(model => model.ValorVentaConIva):</b>@Html.DisplayFor(modelItem => item.ValorVentaConIva) </p>
+                        <div style="padding:20px; ">
+                            @Html.ActionLink("Agregar al carro", "Details", new { id = item.Id }, htmlAttributes: new { @class = "button", @style = "width:100%" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+@if (detalles != null)
+{
+    <div style="padding-top :20px">
+        @if (detalles.Count > 0)
+        {
+            <a class="button" id="btnMostrar" href="#"> Mostrar carrito </a>
+        }
+    </div>
+    <div id="dialog" style=" display:none ;padding:20px; ">
+        <table class="table">
+            <tr>
+                <th>cantidad</th>
+                <th> producto </th>
+                <th>  valor Unitario </th>
+                <th> total  </th>
+            </tr>
+            <tbody>
+                @foreach (var item in detalles)
+                {
+                    <tr>
+                        <td>@item.Cantidad  </td>
+                        <td>@item.Producto.Nombre </td>
+                        <td>@item.ValorUnitarioIva   </td>
+                        <td>@item.TotalConIva  </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <label>Total a pagar :</label>@totalpagar
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("#dialog").dialog({
+            autoOpen: false,
+            height: 400,
+            width: 600,
+            buttons: {
+                "facturar": function () { validarSesion() },
+                "Cerrar": function () { location.reload(); $(this).dialog("close") },
+            },
+            modal: true
+        });
+        $("#btnMostrar").click(function () {
+            $("#dialog").dialog("open");
+        });
+        function validarSesion() {
+            var esSesionIniciada = $("#esSesionIniciada").val();
+            if (esSesionIniciada == 'false') {
+                alertify.error('inicie seision para comprar');
+                $("#dialog").dialog("close");
+                $("#InicioSesion").dialog('open')
+                return;
+            }
+            window.location.href = "facturas/create";
+        }
+    </script>
+}
+

@@ -9,7 +9,7 @@ namespace PruebaQuantum.Controllers
 {
     public class ProductosController : Controller
     {
-        List<FacturaDetalle> detalles;
+ 
         string url;
         List<Producto> productos;
         public ProductosController()
@@ -24,11 +24,6 @@ namespace PruebaQuantum.Controllers
             {
                 Utilities.url = url + $"/Productos";
                 productos = await Utilities.GetListDataAPIAsync<Producto>();
-                detalles = new List<FacturaDetalle>();
-                if (Session["detalle"] != null)
-                    detalles = (List<FacturaDetalle>)Session["detalle"];
-                ViewBag.detalles = detalles;
-                ViewBag.sum =Logica.TotalPagar(detalles);              
                 return View(productos);
             }
             catch (Exception ex)
@@ -37,38 +32,12 @@ namespace PruebaQuantum.Controllers
                 return View();             
             }
         }
-        [HttpPost]
-        public async Task<ActionResult> Details(int cantidad, int id)
-        {
-            detalles = new List<FacturaDetalle>();
-            try
-            {                
-                if (Session["detalle"] != null)
-                    detalles = (List<FacturaDetalle>)Session["detalle"];
-                Utilities.url = url + $"/Productos";
-                productos = await Utilities.GetListDataAPIAsync<Producto>();
-                Producto producto = Logica.BuscarProducto(productos, id);
-                Logica.AñadirDetalles(detalles, producto, cantidad, id);         
-                Session["detalle"] = detalles;
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = ex.Message;
-                return View();
-            }
-        }
-
+    
         // GET: Proctutos/Details/5
         public async Task< ActionResult >Details(int id)
         {
             Utilities.url = url + $"/Productos";
             productos = await Utilities.GetListDataAPIAsync<Producto>(); 
-            List<FacturaDetalle> detalles =(List<FacturaDetalle >)Session ["detalle"];
-            int cantidad = Logica.DevolverCantidad(detalles, id);
-            ViewBag.sum =Logica . TotalPagar (detalles );
-            ViewBag.detalles = detalles;
-            ViewBag.cantidad = cantidad;
             Producto producto = Logica.BuscarProducto(productos, id);
             return View( producto );
         }

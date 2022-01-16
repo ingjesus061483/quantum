@@ -1,66 +1,60 @@
 ﻿@model Factory.Producto
 
+
 @{
-    ViewBag.Title = "Agregar a compra";
-    decimal totalpagar = (decimal)ViewBag.sum;
-    List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
-    int cantidad = ViewBag.cantidad;
+    ViewBag.Title = "Details";
 }
-<div class="card">
-    <div class="header">@Model.Nombre</div>
-    <div class="body">
-        <dl class="dl-horizontal">
 
-            <dt>
-                @Html.DisplayNameFor(model => model.ValorVentaConIva)
-            </dt>
+<h2>Details</h2>
 
-            <dd>
-                @Html.DisplayFor(model => model.ValorVentaConIva)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
-            </dt>
+<div>
+    <h4>Producto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.CantidadUnidadesInventario)
-            </dd>
-        </dl>
-        <form action="Details" onsubmit="return validar();" method="post">
-            <div class="form-group">
-                <label>Cantidad</label><input type="text" class="form-control" id="cantidad" name="cantidad" value="@cantidad" />
-                <input type="hidden" value="@Model.CantidadUnidadesInventario" id="stock" />
-                <input type="hidden" name="id" value="@Model.Id" />
-            </div>
-            <div class="form-group">
-                <input type="submit" class="button" value=" Agregar " style="width:100%" />
-            </div>
-        </form>
-    </div>
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorVentaConIva)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorVentaConIva)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CantidadUnidadesInventario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorentaSinIVA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorentaSinIVA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PorcentajeIVAAplicado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PorcentajeIVAAplicado)
+        </dd>
+
+    </dl>
 </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
 
-<div style="padding-top:20px">
-    @Html.ActionLink("Regresar a la lista", "Index", null, htmlAttributes: new { @class = "button" })
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        function validar() {
-            value = true;
-            var cantidad = Number($("#cantidad").val());
-            var stock = Number($("#stock").val());
-            var total = cantidad - stock
-            if (cantidad >= stock) {
-                alertify.error('la cantidad debe ser menor al stock');
-                value = false;
-            }
-            if (cantidad <= 0) {
-                alertify.error('ha digitao una cantidad invalida');
-                value = false;
-            }
-            return value;
-
-        }
-    </script>
-}
