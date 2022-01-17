@@ -5,11 +5,7 @@
     ViewBag.Title = "Facturar compra";
     string url = ViewBag.url;
     List<Factory.FacturaDetalle> detalles = ViewBag.detalles;
-    decimal totalpagar = 0;
-    if (ViewBag.totalPagar != null)
-    {
-        totalpagar = ViewBag.totalPagar;
-    }
+    decimal totalpagar=ViewBag.totalPagar;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -75,139 +71,14 @@
 <div style="padding-top :20px">
     @Html.ActionLink("Regresar a Comprar", "Index", "Facturas", null, htmlAttributes: new { @class = "button" })
 </div>
-
-<div id="dialog" style=" display:none ;padding :30px">
-    <form>
-        <div class="form-group">
-            <label> Nombre</label>
-            <input class="form-control" type="text" id="nombre" style=" width:100%" />
-        </div>
-        <div class="form-group">
-            <label>Apellido</label>
-            <input type="text" class="form-control" id="apellido" style=" width:100%" />
-        </div>
-        <div class="form-group">
-            <label> Direccion </label>
-            <input type="text" id="direccion" class="form-control" style=" width:100%" />
-        </div>
-        <div class="form-group">
-            <label>Telefono</label>
-            <input type="text" class="form-control" id="telefono" style=" width:100%" />
-        </div>
-    </form>
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-            $('input[type=datetime]').datepicker({
-                dateFormat: "dd/MM/yy",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-60:+0"
-            });
-            @*function guardar()
-            {
-                identificacion = $("#identificacion").val();
-                nombre = $("#nombre").val();
-                apellido = $("#apellido").val();
-                direccion = $("#direccion").val();
-                telefono = $("#telefono").val();
-                if (identificacion == "") {
-                    alertify.error("campo invalido");
-                    return;
-                }
-                if (nombre == "") {
-                    alertify.error("camppo invalido");
-                    return;
-                }
-                if (apellido == "") {
-                    alertify.error("campo invalido");
-                    return;
-                }
-                if (direccion == "") {
-                    alertify.error("campo invalido");
-                    return;
-                }
-                if (telefono == "") {
-                    alertify.error("campo invalido");
-                    return;
-                }
-                $.ajax({
-                    data: { identificacion: identificacion, nombre: nombre, apellido: apellido, direccion: direccion, telefono: telefono },
-                    dataType: 'json',
-                    type: "POST",
-                    url: "@url/Clientes"
-                }).done(function (data, textStatus, jqXHR) {
-                    var enconded = JSON.stringify(data);
-                    console.log("estado :", textStatus);
-                    $("#cadena").val(enconded)
-                    alertify.success("el registro seha insertado con exito")
-                    console.log("La solicitud se ha completado correctamente.", enconded);
-                    $("#btnCrear").fadeIn()
-                    $("#dialog").dialog("close");
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    //$("#dialog").dialog("open");
-                    error = jqXHR.responseJSON;
-                    alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
-                    console.log("La solicitud a fallado: ", textStatus);
-                    console.log(error);
-                    console.log(jqXHR);
-                });
-            }
-            $("#dialog").dialog({
-                autoOpen: false,
-                height: 500,
-                width: 350,
-                buttons: {
-                    "Guardar": function () { guardar() },
-                    "Cerrar": function () {  $(this).dialog("close") },
-                },
-                modal: true
-            });
-    $("#btnBuscar").click(function () {
-        var identificacion = $("#identificacion").val();
-        if (identificacion == "") {
-            alertify.error("este campo no puede ser vacio");
-            return;
-        }
-        $.ajax({
-            data: { identificacion: identificacion },
-            dataType: 'json',
-            type: "GET",
-            url:  "@url/Clientes"
-        }).done(function (data, textStatus, jqXHR) {
-            if (data == null) {
-                $("#cadena").val("");
-                $("#dialog").dialog("open");
-                $("#btnCrear").fadeOut();
-                $("#resp").html("");
-                $("#resp").fadeOut();
-            }
-            else
-            {
-                var enconded = JSON.stringify(data);
-                var content = "<p><b>Nombre:</b>" + data.NombreCompleto + "</p><p><b>Direccion:</b>" + data.Direccion + "</p><p><b>Telefoo: </b>" + data.Telefono + "</p>";
-                $("#resp").html(content);
-                $("#resp").fadeIn();
-                $("#cadena").val(enconded);
-                alertify.success("se ha encontrado un cliente");
-                $("#btnCrear").fadeIn();
-                setTimeout(function () {
-                    $("#resp").fadeOut();
-                }, 5000);
-                console.log("estado :", textStatus);
-                console.log("La solicitud se ha completado correctamente.", enconded);
-                console.log("La solicitud se ha completado correctamente.", data);
-            }
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            $("#cadena").val("");
-            error = jqXHR.responseJSON;
-            alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
-            console.log("La solicitud a fallado: ", textStatus);
-            console.log(error);
-            console.log(jqXHR);
+        $('input[type=datetime]').datepicker({
+            dateFormat: "dd/MM/yy",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-60:+0"
         });
-    })*@
     </script>
 }

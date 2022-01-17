@@ -92,6 +92,7 @@ namespace PruebaQuantum.Controllers
         // GET: Facturas/Create
         public ActionResult Create()        
         {
+            ViewBag.totalPagar = 0;
             try
             {
                 if (Session["usuario"] == null)

@@ -1,5 +1,4 @@
 ﻿@model Factory.Producto
-
 @{
     ViewBag.Title = "Agregar a compra";
     decimal totalpagar = (decimal)ViewBag.sum;
@@ -10,18 +9,15 @@
     <div class="header">@Model.Nombre</div>
     <div class="body">
         <dl class="dl-horizontal">
-
             <dt>
                 @Html.DisplayNameFor(model => model.ValorVentaConIva)
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.ValorVentaConIva)
             </dd>
             <dt>
                 @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.CantidadUnidadesInventario)
             </dd>
