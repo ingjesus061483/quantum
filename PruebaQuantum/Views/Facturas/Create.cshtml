@@ -40,32 +40,40 @@
         }
     </div>
 </div>
-
-<h4> detalle</h4>
-<table class="table">
-    <tr>
-        <th>cantidad</th>
-        <th> producto </th>
-        <th>  valor Unitario </th>
-        <th> total  </th>
-    </tr>
-    <tbody>
-        @foreach (var item in detalles)
-        {
-            <tr>
-                <td>@item.Cantidad  </td>
-                <td>@item.Producto.Nombre </td>
-                <td>@item.ValorUnitarioIva   </td>
-                <td>@item.TotalConIva  </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div style="padding:20px;">
-    <label>total a pagar :</label>@totalpagar
+@if (detalles != null)
+{
+<div class=" card">
+    <div class=" header"> Detalle</div>
+    <div class="body">
+        <div style=" overflow:scroll">
+            <table class="table">
+                <tr>
+                    <th>cantidad</th>
+                    <th> producto </th>
+                    <th>  valor Unitario </th>
+                    <th> total  </th>
+                </tr>
+                <tbody>
+                    @foreach (var item in detalles)
+                    {
+                        <tr>
+                            <td>@item.Cantidad  </td>
+                            <td>@item.Producto.Nombre </td>
+                            <td>@item.ValorUnitarioIva   </td>
+                            <td>@item.TotalConIva  </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div style="padding:20px;">
+            <label>total a pagar :</label>@totalpagar
+        </div>
+    </div>
 </div>
-<div style="padding :20px">
-    @Html.ActionLink("Regresar a productos", "Index", "Productos", null, htmlAttributes: new { @class = "button" })
+}
+<div style="padding-top :20px">
+    @Html.ActionLink("Regresar a Comprar", "Index", "Facturas", null, htmlAttributes: new { @class = "button" })
 </div>
 
 <div id="dialog" style=" display:none ;padding :30px">

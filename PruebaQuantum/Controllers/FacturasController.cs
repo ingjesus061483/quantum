@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Factory;
 using Helper;
-using Newtonsoft.Json;
 
 namespace PruebaQuantum.Controllers
 {
@@ -14,7 +13,9 @@ namespace PruebaQuantum.Controllers
     {
         List<FacturaDetalle> detalles; 
         List<Producto> productos;
+        Usuario usuario;
         string url;
+        string modulo = "Facturas";
         public FacturasController()
         {
             url= ConfigurationManager.AppSettings["urlapi"];
@@ -25,7 +26,9 @@ namespace PruebaQuantum.Controllers
         {
             ViewBag.sum = 0;
             try
-            {
+            {                
+                usuario = (Usuario)Session["usuario"];                
+                Logica.verificarPermisos(usuario, modulo , "List");
                 Utilities.url = url + $"/Productos";
                 productos = await Utilities.GetListDataAPIAsync<Producto>();
                 detalles = (List<FacturaDetalle>)Session["detalle"];
@@ -36,7 +39,7 @@ namespace PruebaQuantum.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = ex.Message;
-                return View();
+                return RedirectToAction("index", "home", null);
             }
         }
 
@@ -59,36 +62,56 @@ namespace PruebaQuantum.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = ex.Message;
-                return View();
+                return RedirectToAction("index", "home", null);
             }
         }
 
         // GET: Proctutos/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            Utilities.url = url + $"/Productos";
-            productos = await Utilities.GetListDataAPIAsync<Producto>();
-            List<FacturaDetalle> detalles = (List<FacturaDetalle>)Session["detalle"];
-            int cantidad = Logica.DevolverCantidad(detalles, id);
-            ViewBag.sum = Logica.TotalPagar(detalles);
-            ViewBag.detalles = detalles;
-            ViewBag.cantidad = cantidad;
-            Producto producto = Logica.BuscarProducto(productos, id);
-            return View(producto);
+            try
+            {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modulo, "Details");                
+                Utilities.url = url + $"/Productos";
+                productos = await Utilities.GetListDataAPIAsync<Producto>();
+                List<FacturaDetalle> detalles = (List<FacturaDetalle>)Session["detalle"];
+                int cantidad = Logica.DevolverCantidad(detalles, id);
+                ViewBag.sum = Logica.TotalPagar(detalles);
+                ViewBag.detalles = detalles;
+                ViewBag.cantidad = cantidad;
+                Producto producto = Logica.BuscarProducto(productos, id);
+                return View(producto);
+            }
+            catch(Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("index", "home", null);
+            }
         }
         // GET: Facturas/Create
         public ActionResult Create()        
         {
-            if (Session["usuario"] == null)
-                return RedirectToAction("Index", "Productos", null);
-            if (Session["detalle"] == null)
-                return RedirectToAction("Index", "Productos", null);
-            ViewBag.url = url;
-            ViewBag.usuario = (Usuario)Session["usuario"];
-            List<FacturaDetalle>detalles=(List <FacturaDetalle>)Session["detalle"];
-            ViewBag.totalPagar =Logica .TotalPagar(detalles);
-            ViewBag.detalles = detalles;
-            return View();
+            try
+            {
+                if (Session["usuario"] == null)
+                    return RedirectToAction("Index", "Home", null);
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modulo, "Create");
+                if (Session["detalle"] == null)
+                    return RedirectToAction("Index", "Facturas", null);
+                ViewBag.url = url;
+                ViewBag.usuario = (Usuario)Session["usuario"];
+                List<FacturaDetalle> detalles = (List<FacturaDetalle>)Session["detalle"];
+                ViewBag.totalPagar = Logica.TotalPagar(detalles);
+                ViewBag.detalles = detalles;
+                return View();
+            }
+            catch(Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("index", "home", null);
+            }
         }
         
 
@@ -99,11 +122,10 @@ namespace PruebaQuantum.Controllers
             try
             {
                 List<FacturaDetalle> detalles;
-                if (Session["usuario"] == null)
-                    throw new Exception("No hay clientes disponibles");
+                usuario =(Usuario ) Session["usuario"];
+                Logica.verificarPermisos(usuario, modulo, "Create");
                 if (Session["detalle"] == null)
-                    return RedirectToAction("Index","Productos",null);
-                Usuario usuario = (Usuario)Session["usuario"];
+                    return RedirectToAction("Index","Factura",null);               
                 detalles = (List<FacturaDetalle>)Session["detalle"];
                 encabezado.Cliente = usuario ;
                 encabezado.Detalles = detalles;              
@@ -117,51 +139,7 @@ namespace PruebaQuantum.Controllers
             catch(Exception ex)
             {              
                 TempData["error"] = ex.Message;
-                return RedirectToAction("Index", "Productos", null);
-            }
-        }
-
-        // GET: Facturas/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Facturas/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Facturas/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Facturas/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                return RedirectToAction("Index", "home", null);
             }
         }
     }

@@ -1,14 +1,17 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    @using Factory
     @{
-        Factory.Usuario usuario = (Factory.Usuario)Session["usuario"];
+        Usuario usuario = (Factory.Usuario)Session["usuario"];
+        List<Permiso> permisos = new List<Permiso>();
         bool esSesionIniciada = false;
         string url = "https://localhost:44362/";
         string msg = "";
         string error = "";
         if (usuario!=null)
         {
+            permisos = usuario.Perfil.Permisos.FindAll(x => x.ValorPermiso == "List");
             esSesionIniciada = true;
         }
         if (TempData["msg"] != null)
@@ -34,8 +37,6 @@
     <link rel="stylesheet" href="~/Scripts/alertifyjs/css/alertify.rtl.min.css">
     <script type="text/javascript" src="~/Scripts/alertifyjs/alertify.js"></script>
     <script type="text/javascript" src="~/Scripts/alertifyjs/alertify.min.js"></script>
-   
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" style="        background-color: #0f4c75; color:white;">
@@ -51,18 +52,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
-                    <li>@Html.ActionLink("Inventario", "Index", "Productos")</li>
-                    <li>@Html.ActionLink("Facturacion", "Index", "Facturas")</li>
-
-
-
-
+                    @foreach (var item in permisos)
+                    {
+                        <li>@Html.ActionLink(item .Modulo .Nombre, "Index", item .Modulo.Nombre )</li>
+                    }
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    @if (!esSesionIniciada)
+                    @if (esSesionIniciada)
                     {
-                        <li><a href="#" id="IniciarSesion">Inniciar sesion</a> </li>
+                        <li>
+                            <form action="~/Usuarios/logout" method="post" onsubmit="return validar();">
+                                <input type="submit" class="button" value=" Cerrar sesion" style="width :100%" />
+                            </form>
+                        </li>
                     }
                 </ul>
             </div>
@@ -106,11 +108,11 @@
             <input class=" form-control " type="password" id="contraseña" />
         </div>
     </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryui")
-        @Scripts.Render("~/bundles/bootstrap")
-        <script type="text/javascript">
-            
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        var esSesionIniciada = $("#esSesionIniciada").val();      
         var error = "@error";
         var msg = "@msg";
         if (msg != "") {
@@ -128,20 +130,23 @@
             width: 500,
             buttons: {
                 "Iniciar sesion": function () { iniciarSesion(); },
-                "Cerrar": function () {  $(this).dialog("close") },
-
-
+                
             },
             modal: true
         });
-    function validar() {
-        var valida = false
-        resp = confirm("Desea cerrar la sesion?")
-        if (resp) {
-            valida = true;
+        if (esSesionIniciada == "false") {
+            $("#InicioSesion").dialog('open');
         }
-        return valida;
-    }
+
+        function validar()
+        {
+            var valida = false
+            resp = confirm("Desea cerrar la sesion?")
+            if (resp) {
+                valida = true;
+            }
+            return valida;
+        }
         function iniciarSesion()
         {
             var usuario = $("#usuario").val();
@@ -155,9 +160,9 @@
                 return;
             }
             $.ajax({
-                data: { user: usuario, contraseña:contraseña },
-                    dataType: 'json',
-                    type: "GET",
+                data: { user: usuario, contraseña: contraseña },
+                dataType: 'json',
+                type: "GET",
                 url: "https://localhost:44362/usuarios/login"
                 }).done(function (data, textStatus, jqXHR) {
                     var enconded = JSON.stringify(data);

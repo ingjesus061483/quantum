@@ -1,10 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Factory;
 namespace Helper
 {
     public abstract class Logica
     {
-
+        public static void verificarPermisos(Usuario usuario,string modulo, string valorPermiso)
+        {
+            try
+            {
+                
+                if (usuario ==null)
+                {
+                    throw new Exception("No has iniciado sesion");
+                }
+                Permiso permiso =usuario .Perfil.Permisos.Find(x => x.Modulo.Nombre == modulo && x.ValorPermiso == valorPermiso);
+                if (permiso == null)
+                {
+                    string erro = $"el usuario {usuario.NombreUsuario} no tiene permiso para entrar en este modulo";
+                    throw new Exception(erro);
+                }                              
+            }
+            catch (Exception ex )
+            {
+                throw ex;
+            }
+        }
         public static decimal TotalPagar(List<FacturaDetalle> detalles)
         {
             decimal sum = 0;

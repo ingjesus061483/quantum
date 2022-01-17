@@ -1,4 +1,5 @@
 ﻿using Factory;
+using Helper;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,6 +12,8 @@ namespace PruebaQuantum.Controllers
 {
     public class PerfilesController : Controller
     {
+        Usuario usuario;
+        string modulo = "Perfiles";
         string url;
         public PerfilesController()
         {
@@ -19,9 +22,19 @@ namespace PruebaQuantum.Controllers
         // GET: Perfiles
         public async Task < ActionResult> Index()
         {
-            Utilities.url = $"{url}/Perfiles";
-            List<Perfil> perfiles = await Utilities.GetListDataAPIAsync<Perfil>();
-            return View(perfiles );
+            try
+            {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modulo, "List");
+                Utilities.url = $"{url}/Perfiles";
+                List<Perfil> perfiles = await Utilities.GetListDataAPIAsync<Perfil>();
+                return View(perfiles);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return View();
+            }
         }
 
         // GET: Perfiles/Details/5

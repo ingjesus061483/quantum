@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using Helper;
 namespace PruebaQuantum.Controllers
 {
-    public class ProductosController : Controller
+    public class InventariosController : Controller
     {
- 
+        string modunlo = "Inventarios";
+        Usuario usuario;
         string url;
         List<Producto> productos;
-        public ProductosController()
+        public InventariosController()
         {
            url = ConfigurationManager.AppSettings["urlapi"];
         }
@@ -22,7 +23,9 @@ namespace PruebaQuantum.Controllers
             ViewBag.sum = 0;
             try
             {
-                Utilities.url = url + $"/Productos";
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modunlo, "List");
+                Utilities.url = url + $"/Productos";                
                 productos = await Utilities.GetListDataAPIAsync<Producto>();
                 return View(productos);
             }
@@ -36,17 +39,37 @@ namespace PruebaQuantum.Controllers
         // GET: Proctutos/Details/5
         public async Task< ActionResult >Details(int id)
         {
-            Utilities.url = url + $"/Productos";
-            productos = await Utilities.GetListDataAPIAsync<Producto>(); 
-            Producto producto = Logica.BuscarProducto(productos, id);
-            return View( producto );
+            try
+            {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modunlo, "Details");
+                Utilities.url = url + $"/Productos";
+                productos = await Utilities.GetListDataAPIAsync<Producto>();
+                Producto producto = Logica.BuscarProducto(productos, id);
+                return View(producto);
+            }
+            catch(Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return View();
+            }
         }
 
         // GET: Proctutos/Create
         public ActionResult Create()
         {
-            Producto producto = new Producto { PorcentajeIVAAplicado = 0.16M };               
-            return View(producto);
+            try
+            {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modunlo, "Create");
+                Producto producto = new Producto { PorcentajeIVAAplicado = 0.16M };
+                return View(producto);
+            }
+            catch (Exception ex )
+            {
+                TempData["error"] = ex.Message;
+                return View();
+            }
         }
 
         // POST: Proctutos/Create
@@ -55,6 +78,8 @@ namespace PruebaQuantum.Controllers
         {
             try
             {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modunlo, "Create");
                 Utilities.url = url + "/Productos";
                 await Utilities.PostDataAPIAsync(producto);
                 return RedirectToAction("Index");
@@ -71,6 +96,8 @@ namespace PruebaQuantum.Controllers
         {
             try
             {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modunlo, "Edit");
                 Utilities.url = url + $"/Productos";
                 productos = await Utilities.GetListDataAPIAsync<Producto>();
                 Producto producto = Logica.BuscarProducto(productos, id);
@@ -89,6 +116,8 @@ namespace PruebaQuantum.Controllers
         {
             try
             {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modunlo, "Edit");
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
@@ -111,13 +140,15 @@ namespace PruebaQuantum.Controllers
         {
             try
             {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modunlo, "Edit");
                 // TODO: Add delete logic here
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
     }
