@@ -1,0 +1,145 @@
+﻿@using Factory
+@model Perfil
+
+
+@{
+    ViewBag.Title = "Detalles de perfil";
+    string urlapi = ViewBag.urlapi;
+    List<Modulo> modulos = ViewBag.modulos;
+    List<Permiso> permisos = Model.Permisos;
+}
+
+
+
+<div class="card ">
+    <div class=" header">@ViewBag.Title </div>
+    <div class="body " >
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+        </dl>
+        <div class="card " style="overflow:scroll;height:300px ">
+            <table class="table">
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Modulo
+                    </th>
+                    <th>
+                        Valor permiso
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in permisos)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Modulo.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorPermiso)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Eliminar", "Delete","Permisos", new { id = item.Id }, htmlAttributes: new { @class = "buttonCol" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+<div style="padding-top :20px">
+    @Html.ActionLink("Editar perfil", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "button" })
+    @Html.ActionLink("Regresar", "Index", null, htmlAttributes: new { @class = "button" })
+    <a id="Permisos" class="button">Crear permisos</a> 
+</div>
+<div id="dialog">
+    <label>Modulos </label>
+    <input type="hidden" id="idperfil" value="@Model.Id" />
+    <select id="modulo" class=" form-control">
+        <option value="0">seleccione un modulo</option>
+        @foreach (var item in modulos)
+        {
+            <option value=" @item.Id">@item.Nombre</option>
+        }
+    </select>
+    <label>valores de permisos </label>
+    <select id="valor" class="form-control">
+        <option value="0">seleccione un valor</option>
+        <option value="Create">Crear</option>
+        <option value="Edit">Editar</option>
+        <option value="Delete">Eliminar</option>
+        <option value="List">Listar</option>
+        <option value="Details">Detallar</option>
+    </select>
+
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("#dialog").dialog({
+            autoOpen: false,
+            height: 400,
+            width: 600,
+            buttons: {
+                "facturar": function () { Guardar() },
+                "Cerrar": function () { $(this).dialog("close") },
+            },
+            modal: true
+        });
+        $('#Permisos').click(function ()
+        {
+            $("#dialog").dialog('open');
+            
+        });
+        function Guardar() {
+            idperfil = $("#idperfil").val();
+            idmodulo = $("#modulo").val();
+            valorPermiso = $("#valor").val();
+            $.ajax({
+                data: { idperfil: idperfil, idmodulo: idmodulo, valorPermiso: valorPermiso },
+                dataType: 'json',
+                type: "Post",
+                url: "https://localhost:44362/Permisos/Create"
+            }).done(function (data, textStatus, jqXHR) {
+                var enconded = JSON.stringify(data);
+                console.log("estado :", textStatus);
+
+                alertify.success("Has iniciado sesion como " + data.NombreUsuario)
+                console.log("La solicitud se ha completado correctamente.", enconded);
+                location.reload();
+
+                $("#InicioSesion").dialog("close");
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                //$("#dialog").dialog("open");
+                //error = jqXHR.responseText;
+                alertify.error("Ha ocurrido ur error en la solucitud consulte la consola de su sunaegador para mas detalles");
+                console.log("La solicitud a fallado: ", textStatus);
+                console.log(error);
+                console.log(jqXHR);
+            });
+
+
+        }
+    </script>
+}

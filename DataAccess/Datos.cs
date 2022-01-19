@@ -18,6 +18,7 @@ namespace DataAccess
         {
             conexion = new SqlConnection { ConnectionString = CadenaConexion };
         }
+
         /// <summary>
         /// Abre una conexion
         /// </summary>
@@ -111,6 +112,20 @@ namespace DataAccess
             finally
             {
                 CerrarConexion();
+            }
+        }
+        public void EliminarPermisos(int  id )
+        {
+            try
+            {
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "EliminarPermisos");
+                comand.Parameters.Add("id", SqlDbType.Int).Value = id;
+                comand.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            { 
+                throw ex; 
             }
         }
         public int InsertarEncabezado(int idCliente ,DateTime  fechaVenta ,DateTime  fechaEnvio )
@@ -316,6 +331,29 @@ namespace DataAccess
             {
                 CerrarConexion();
             }
+        }
+        public  void InsertarPermisos(int idperfil, int idmodulo, string valorpermiso )
+        {
+            try
+            {
+
+                AbrirConexion();
+                comand = InicializarComando(conexion, CommandType.StoredProcedure, "InsertarPermisos");
+                comand.Parameters.Add("idperfil", SqlDbType.Int).Value = idperfil;
+                comand.Parameters.Add("idmodulo", SqlDbType.Int).Value = idmodulo;
+                comand.Parameters.Add("valorpermiso", SqlDbType.VarChar).Value = valorpermiso;
+                comand.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CerrarConexion();
+            }
+
+
         }
         public void EditarUsuarios(int id, int idtipoidentificacion, string identificacion, string nombre, string apellido, string direccion,
             string telefono, string email, string nombreUsuario, string contraseña, int idperfil)

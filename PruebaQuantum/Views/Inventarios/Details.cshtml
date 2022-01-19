@@ -2,59 +2,54 @@
 
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles de producto";
 }
+@if (Model != null)
+{
+<div class="card">
+    <div class="header">@ViewBag.Title</div>
+    <div class="body">
+        <dl>
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
 
-<h2>Details</h2>
+            <dt>
+                @Html.DisplayNameFor(model => model.ValorVentaConIva)
+            </dt>
 
-<div>
-    <h4>Producto</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ValorVentaConIva)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ValorVentaConIva)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CantidadUnidadesInventario)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ValorVentaConIva)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ValorentaSinIVA)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ValorentaSinIVA)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CantidadUnidadesInventario)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PorcentajeIVAAplicado)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ValorentaSinIVA)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ValorentaSinIVA)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PorcentajeIVAAplicado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PorcentajeIVAAplicado)
-        </dd>
-
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.PorcentajeIVAAplicado)
+            </dd>
+        </dl>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
+<div style="padding-top:20px">
+    @Html.ActionLink("Edit", "Editar", new { id = Model.Id },htmlAttributes:new { @class="button"}) 
+    @Html.ActionLink("regresar", "Index",null,htmlAttributes:new { @class = "button" })
+</div>
+}

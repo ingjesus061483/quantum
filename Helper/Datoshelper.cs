@@ -29,6 +29,17 @@ namespace Helper
                 throw ex;
             }
         }
+        public void EliminarPermisos(int id)
+        {
+            try
+            {
+                datos.EliminarPermisos(id);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         Modulo BuscarModulo(int id)
         {
             try
@@ -55,6 +66,20 @@ namespace Helper
                 throw ex; 
             }
 
+        }
+        public List<Permiso> GetPermisos()
+        {
+            try
+            {
+                List<Perfil> perfiles = GetPerfiles();
+                List<Modulo> modulos = GetModulos();                 
+                List<Permiso>permisos= GetPermisos(perfiles, modulos);
+                return permisos;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<Permiso >GetPermisos(List<Perfil>perfiles,List <Modulo>modulos)
         {
@@ -139,7 +164,7 @@ namespace Helper
             try
             {
                 List<Perfil> perfiles = new List<Perfil>();
-
+                 
                 table = datos.ListarPerfiles();
                 foreach (DataRow row in table.Rows)
                 {
@@ -253,6 +278,17 @@ namespace Helper
                 datos.EditarUsuarios(usuario.Id , usuario.TipoIdentificacion.Id, usuario.Identificacion, usuario.Nombre,
                     usuario.Apellido, usuario.Direccion, usuario.Telefono, usuario.Email, usuario.NombreUsuario,
                     usuario.Contraseña, usuario.Perfil.Id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void InsertarPermisos(Permiso permiso)
+        {
+            try
+            {
+                datos.InsertarPermisos(permiso.Perfil.Id, permiso.Modulo.Id, permiso.ValorPermiso);
             }
             catch (Exception ex)
             {

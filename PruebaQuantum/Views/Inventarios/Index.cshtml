@@ -2,55 +2,64 @@
 @model IEnumerable<Producto>
 
 @{
-    ViewBag.Title = "index";
+    ViewBag.Title = "Inventario de Productos";
 }
 
-<h2>index</h2>
+@if (Model != null)
+{
+
 <div style="padding-bottom:20px;padding-top:20px">
-    @Html.ActionLink("Crear producto", "Create", null, htmlAttributes: new { @class = "button" })
+    @Html.ActionLink("Crear producto", "Create", null, htmlAttributes: new { @class = "button"})
 </div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ValorVentaConIva)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ValorentaSinIVA)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PorcentajeIVAAplicado)
-        </th>
-        <th></th>
-    </tr>
+<div class="card" >
+    <div class="header ">@ViewBag.Title</div>
+    <div class=" body"style="overflow:scroll">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ValorVentaConIva)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CantidadUnidadesInventario)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ValorentaSinIVA)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PorcentajeIVAAplicado)
+                </th>
+                <th></th>
+            </tr>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorVentaConIva)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CantidadUnidadesInventario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorentaSinIVA)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PorcentajeIVAAplicado)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }, htmlAttributes: new { @class = "buttonCol" })
+                        </td>
+                    </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ValorVentaConIva)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadUnidadesInventario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ValorentaSinIVA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PorcentajeIVAAplicado)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id }, htmlAttributes: new { @class = "buttonCol" }) 
-            </td>
-        </tr>
-    }
-
-</table>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+}

@@ -1,89 +1,70 @@
 ﻿@model Factory.Usuario
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles de usuario";
 }
-
-<h2>Details</h2>
-
-<div>
-    <h4>Usuario</h4>
-    <hr />
-    <dl class="dl-horizontal">
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoIdentificacion.Nombre )
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoIdentificacion.Nombre )
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Identificacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Identificacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreCompleto )
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NombreCompleto )
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Direccion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Direccion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreUsuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NombreUsuario)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contraseña)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contraseña)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Perfil .Nombre )
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Perfil .Nombre )
-        </dd>
-
-    </dl>
+<div class="card">
+    <div class="header">@ViewBag.Title</div> 
+    <div class="body" >
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.TipoIdentificacion.Nombre )
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TipoIdentificacion.Nombre )
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Identificacion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Identificacion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreCompleto )
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NombreCompleto )
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Direccion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Telefono)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreUsuario)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NombreUsuario)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Contraseña)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Contraseña)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Perfil .Nombre )
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Perfil .Nombre )
+            </dd>
+        </dl>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div style=" padding-top:20px">
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id },htmlAttributes:new { @class = "button" }) |
+    @Html.ActionLink("Regresar", "Index",null,  htmlAttributes: new { @class = "button" })
+</div>

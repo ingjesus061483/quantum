@@ -39,6 +39,7 @@ namespace PruebaQuantum
                 throw new Exception(err.ExceptionMessage);
             }
         }
+
         public static string Encriptar(string cadenaAencriptar)
         {
             string result = String.Empty;
@@ -117,6 +118,26 @@ namespace PruebaQuantum
 
             return apiResponse;
 
+        }
+        public static async Task<string> DeleteDataAPIAsync()
+        {
+            try
+            {
+                var apiResponse = string.Empty;
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.DeleteAsync(url))
+                    {
+                        apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
+
+                return apiResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public static async Task<string> PUTDataAPIAsync()

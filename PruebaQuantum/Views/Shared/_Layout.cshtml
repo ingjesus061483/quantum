@@ -53,57 +53,45 @@
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                     @foreach (var item in permisos)
                     {
-                        <li>@Html.ActionLink(item .Modulo .Nombre, "Index", item .Modulo.Nombre )</li>
+                        <li>@Html.ActionLink(item.Modulo.Nombre, "Index", item.Modulo.Nombre)</li>
                     }
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    @if (esSesionIniciada)
-                    {
-                        <li>
-                            <form action="~/Usuarios/logout" method="post" onsubmit="return validar();">
-                                <input type="submit" class="button" value=" Cerrar sesion" style="width :100%" />
-                            </form>
-                        </li>
-                    }
+
                 </ul>
             </div>
         </div>
+    </div>
+    <div class="container">
+        @if (esSesionIniciada)
+        {
+            <form action="~/Usuarios/logout" method="post" onsubmit="return validar();">
+
+                <div style="padding-top:30px;float:left">                    
+                    <p style=" font-size:30px"> <b>@Html.ActionLink(usuario.NombreUsuario, "EDit", "usuarios", new { id = usuario.Id }, htmlAttributes: new { @Style = "" })</b>  </p>
+                </div>
+                <div style="float: right;padding-top:20px">
+                    <input type="submit" class="button" value=" Cerrar sesion"  />
+                </div>
+            </form>
+
+        }
     </div>
     <div class="container body-content">
         <input type="hidden" id="esSesionIniciada" value="@esSesionIniciada.ToString().ToLower()" />
         @RenderBody()
         <hr />
         <footer>
-            @if( esSesionIniciada)
-            {
-            <div style="width :500px">
-                <div class="card">
-                    <div class=" header">Informacion de sesion</div>
-                    <div class="body">
-                        <form action="~/Usuarios/logout" method="post" onsubmit="return validar();">
-                            <p><b> @Html.DisplayNameFor(model => usuario.Identificacion):</b>  @Html.DisplayFor(modelItem => usuario.Identificacion)               </p>
-                            <p><b> @Html.DisplayNameFor(model => usuario.NombreCompleto):</b>  @Html.DisplayFor(modelItem => usuario.NombreCompleto)               </p>
-                            <p><b> @Html.DisplayNameFor(model => usuario.NombreUsuario):</b>  @Html.DisplayFor(modelItem => usuario.NombreUsuario)               </p>
-                            <p><b> @Html.DisplayNameFor(model => usuario.Perfil.Nombre):</b>  @Html.DisplayFor(modelItem => usuario.Perfil.Nombre)               </p>
-                            <div >
-                                <input type="submit" class="button" value=" Cerrar sesion" style="width :100%" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-                </div>
-                }
-                <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
-</footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
     </div>
     <div id="InicioSesion" style="display:none">
         <div class="form-group ">
-            <label class="control-label" >Usuario </label>
+            <label class="control-label">Usuario </label>
             <input class="form-control " type="text" id="usuario" />
         </div>
         <div class="form-group ">
-            <label class=" control-label " >Contraseña </label>
+            <label class=" control-label ">Contraseña </label>
             <input class=" form-control " type="password" id="contraseña" />
         </div>
     </div>
@@ -111,7 +99,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript">
-        var esSesionIniciada = $("#esSesionIniciada").val();      
+        var esSesionIniciada = $("#esSesionIniciada").val();
         var error = "@error";
         var msg = "@msg";
         if (msg != "") {
@@ -129,7 +117,7 @@
             width: 500,
             buttons: {
                 "Iniciar sesion": function () { iniciarSesion(); },
-                
+
             },
             modal: true
         });
@@ -181,7 +169,7 @@
                     console.log(jqXHR);
                 });
         }
-        </script>
-        @RenderSection("scripts", required: false)
+    </script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

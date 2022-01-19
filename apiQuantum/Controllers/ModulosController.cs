@@ -9,48 +9,40 @@ using System.Web.Http;
 
 namespace apiQuantum.Controllers
 {
-    public class PerfilesController : ApiController
+    public class ModulosController : ApiController
     {
         Datoshelper datoshelper;
-        public PerfilesController()
+        // GET api/<controller>
+       public ModulosController()
         {
             datoshelper = new Datoshelper();
         }
-        // GET api/<controller>
-        public IEnumerable<Perfil> Get()
+        public IEnumerable<Modulo> Get()
         {
             try
             {
-                List <Perfil >perfiles= datoshelper.GetPerfiles();
-                List<Permiso> permisos = datoshelper.GetPermisos();
-                foreach (var item in perfiles)
-                {
-                    item.Permisos = permisos.FindAll(x => x.Perfil.Id == item.Id);
-                }
-                return perfiles;
-
+                List<Modulo> modulos = datoshelper.GetModulos();
+                return modulos;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw ex;
             }
         }
 
         // GET api/<controller>/5
-        public Perfil  Get(int id)
+        public Modulo Get(int id)
         {
             try
             {
-                List<Perfil> perfiles = datoshelper.GetPerfiles();
-                Perfil perfil = perfiles.Find(x => x.Id == id);
-                if(perfil ==null)
-                    throw new Exception("Escoja un perfil valido");
 
-                return perfil;
+                List<Modulo> modulos = datoshelper.GetModulos();
+                Modulo modulo = modulos.Find(x => x.Id == id);
+                return modulo;
             }
             catch(Exception ex)
             {
-                throw ex;
+                throw ex; 
             }
         }
 

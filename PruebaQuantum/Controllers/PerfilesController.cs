@@ -38,9 +38,27 @@ namespace PruebaQuantum.Controllers
         }
 
         // GET: Perfiles/Details/5
-        public ActionResult Details(int id)
+        public async Task < ActionResult> Details(int id)
         {
-            return View();
+            ViewBag.nodulos = new List<Modulo>();        
+            try
+            {
+                usuario = (Usuario)Session["usuario"];
+                Logica.verificarPermisos(usuario, modulo, "List");
+                Utilities.url = $"{url}/Perfiles";
+                List<Perfil> perfiles = await Utilities.GetListDataAPIAsync<Perfil>();
+                Utilities.url = $"{url}/Modulos";
+                List<Modulo> modulos = await Utilities.GetListDataAPIAsync<Modulo>();
+                ViewBag.modulos = modulos;
+                ViewBag.urlapi = url;
+                Perfil perfil = perfiles.Find(x => x.Id == id);
+                return View(perfil);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
+                return View();
+            }
         }
 
         // GET: Perfiles/Create

@@ -76,7 +76,6 @@ namespace PruebaQuantum.Controllers
             {
                 TempData["error"]=ex.Message ;
                 return RedirectToAction("index", "home", null);
-
             }
         }
 

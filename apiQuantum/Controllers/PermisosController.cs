@@ -1,4 +1,5 @@
-﻿using Factory;
+﻿
+using Factory;
 using Helper;
 using System;
 using System.Collections.Generic;
@@ -9,26 +10,20 @@ using System.Web.Http;
 
 namespace apiQuantum.Controllers
 {
-    public class PerfilesController : ApiController
+    public class PermisosController : ApiController
     {
         Datoshelper datoshelper;
-        public PerfilesController()
+        public PermisosController(            )
         {
             datoshelper = new Datoshelper();
         }
         // GET api/<controller>
-        public IEnumerable<Perfil> Get()
+        public IEnumerable<Permiso> Get()
         {
             try
             {
-                List <Perfil >perfiles= datoshelper.GetPerfiles();
                 List<Permiso> permisos = datoshelper.GetPermisos();
-                foreach (var item in perfiles)
-                {
-                    item.Permisos = permisos.FindAll(x => x.Perfil.Id == item.Id);
-                }
-                return perfiles;
-
+                return permisos;
             }
             catch (Exception ex)
             {
@@ -37,26 +32,22 @@ namespace apiQuantum.Controllers
         }
 
         // GET api/<controller>/5
-        public Perfil  Get(int id)
+        public string Get(int id)
         {
-            try
-            {
-                List<Perfil> perfiles = datoshelper.GetPerfiles();
-                Perfil perfil = perfiles.Find(x => x.Id == id);
-                if(perfil ==null)
-                    throw new Exception("Escoja un perfil valido");
-
-                return perfil;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+            return "value";
         }
 
         // POST api/<controller>
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Permiso permiso)
         {
+            try
+            {
+                datoshelper.InsertarPermisos(permiso);
+            }
+            catch(Exception ex)            { 
+
+                throw ex;
+            }
         }
 
         // PUT api/<controller>/5
@@ -67,6 +58,14 @@ namespace apiQuantum.Controllers
         // DELETE api/<controller>/5
         public void Delete(int id)
         {
+            try
+            {
+                datoshelper.EliminarPermisos(id);
+            }
+           catch (Exception ex)
+            {
+                throw ex;
+            }            
         }
     }
 }
